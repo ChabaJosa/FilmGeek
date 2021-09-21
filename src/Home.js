@@ -10,7 +10,7 @@ import { Input, Button } from "react-native-elements";
 import { Context } from "./Context/AppProvider";
 import MovieContainer from "./components/MovieContainer";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const { state, getMovieData } = useContext(Context);
   const [search, setSearch] = useState("Tenet");
   //
@@ -23,20 +23,26 @@ export default function Home() {
   }, []);
   //
   function searchHelper() {
-    getMovieData(state.movieData, search);
+    let searchArr = String(search).split(" ");
+    if (searchArr.length > 1) {
+      searchArr.join("+");
+    } else {
+      getMovieData(state.movieData, search);
+    }
   }
   //
-  console.log("State from home", state);
+  // console.log("State from home", state);
   if (state.movieData != undefined) {
-    console.log(state.movieData);
+    // console.log(navigation);
     return (
       <View style={styles.containerStyle}>
         {/* <Text style={styles.textWhite}>Hi</Text> */}
         <View style={{ flex: 1 }}>
           <Input
-            placeholder="  Movie"
+            placeholder="Movie"
             inputContainerStyle={{ margin: 16 }}
-            labelStyle={{ color: "white", padding: 8 }}
+            inputStyle={{ color: "white" }}
+            labelStyle={{ padding: 8 }}
             leftIcon={{ type: "font-awesome", name: "search" }}
             onChangeText={(value) => {
               setSearch(value);
@@ -44,12 +50,17 @@ export default function Home() {
           />
         </View>
         <View style={{ flex: 6 }}>
-          {/* <MovieContainer data={state.movieData} /> */}
-          {state.movieData != undefined && state.movieData.length >= 1 ? (
+           {state.movieData != undefined && state.movieData.length >= 1 ? (
             <FlatList
               data={state.movieData}
               keyExtractor={(item) => String(item.Title)}
-              renderItem={({ item, index }) => <MovieContainer data={item} />}
+              renderItem={({ item, index }) => (
+                <MovieContainer
+                  data={item}
+                  navigation={navigation}
+                  index={index}
+                />
+              )}
             />
           ) : (
             <View style={[styles.containerStyle, { alignItems: "center" }]}>
@@ -60,12 +71,13 @@ export default function Home() {
         <View style={{ flex: 1 }}>
           <Button
             title="Find Movie"
+            titleStyle={{ color: "black" }}
             buttonStyle={{
               width: "50%",
               alignSelf: "center",
               backgroundColor: "#ffc92b",
               color: "black",
-              marginTop: 8
+              marginTop: 8,
             }}
             onPress={searchHelper}
           />

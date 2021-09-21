@@ -5,12 +5,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const MovieContainer = ({ data, navigation, index }) => {
   //
-  // function infoHelper() {
-  //   navigation.navigate("movie-details", {
-  //     index,
-  //   });
-  // }
-  //s
+  function infoHelper() {
+    navigation.navigate("Movie-Details", {
+      data, 
+      index,
+    });
+  }
+  //
   return (
     <View style={styles.container}>
       <Text style={styles.boldTitle}>{data.Title}</Text>
@@ -36,17 +37,17 @@ const MovieContainer = ({ data, navigation, index }) => {
             <AntDesign
               name="dislike1"
               size={32}
-              color="red"
+              color="grey"
               style={styles.adMargin}
             />
           </TouchableOpacity>
           <TouchableOpacity
-          // onPress={infoHelper}
+          onPress={infoHelper}
           >
             <AntDesign
               name="infocirlceo"
               size={32}
-              color="lightslategrey"
+              color="white"
               style={styles.adMargin}
             />
           </TouchableOpacity>
@@ -56,7 +57,9 @@ const MovieContainer = ({ data, navigation, index }) => {
       <View style={styles.secondRow}>
         <View style={styles.dataRowOdd}>
           <Text style={styles.textRow}>Description</Text>
-          <Text style={styles.dataOutput}>{data.Plot.substring(0, 30)}...</Text>
+          <Text style={[styles.dataOutput, { maxWidth: "70%" }]}>
+            {data.Plot.substring(0, 60)}...
+          </Text>
         </View>
         <View style={styles.dataRow}>
           <Text style={styles.textRow}>Rating / Runtime</Text>
@@ -70,7 +73,9 @@ const MovieContainer = ({ data, navigation, index }) => {
             {data.Director} / {data.Writer} / {data.actors}
           </Text> */}
           <Text style={styles.textRow}>Cast</Text>
-          <Text style={styles.dataOutput}>{data.Actors}</Text>
+          <Text style={[styles.dataOutput, { maxWidth: "90%" }]}>
+            {data.Actors}
+          </Text>
         </View>
       </View>
     </View>
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     paddingHorizontal: 10,
     backgroundColor: "transparent",
-    borderColor: "lightslategrey",
+    borderColor: "grey",
     borderWidth: 1,
     borderRadius: 8,
     height: 250,
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 2,
     alignItems: "center",
-    backgroundColor: "lightslategrey",
+    backgroundColor: "grey",
     borderRadius: 5,
     borderWidth: 2,
     borderColor: "transparent",

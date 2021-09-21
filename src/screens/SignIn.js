@@ -33,6 +33,7 @@ export default function SignIn() {
         <Input
           placeholder="  Email"
           labelStyle={{ color: "white" }}
+          inputStyle={{ color: "white" }}
           leftIcon={{ type: "font-awesome", name: "user" }}
           onChangeText={(value) => {
             setEmail(value);
@@ -41,6 +42,7 @@ export default function SignIn() {
         <Input
           placeholder="  Password"
           secureTextEntry={true}
+          inputStyle={{ color: "white" }}
           leftIcon={{ type: "font-awesome", name: "lock" }}
           onChangeText={(value) => {
             setPwd(value);

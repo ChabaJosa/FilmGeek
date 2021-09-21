@@ -4,7 +4,7 @@ import { Image, Icon } from "react-native-elements";
 
 const { height, width } = Dimensions.get("screen");
 
-const MenuIcon = ({ navigation, name, darkMode }) => {
+const MenuIcon = ({ navigation, name, darkMode, rightMargin }) => {
   //
   function toggleHelper() {
     navigation.toggleDrawer();
@@ -24,7 +24,7 @@ const MenuIcon = ({ navigation, name, darkMode }) => {
           onPress={toggleHelper}
         />
       </View>
-      <View style={styles.secondView}>
+      <View style={[styles.secondView, { marginRight: rightMargin }]}>
         <Text style={{ color: darkMode ? "white" : "black" }}>{name}</Text>
       </View>
     </View>
@@ -51,6 +51,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginRight: "15%",
   },
 });
