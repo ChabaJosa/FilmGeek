@@ -7,7 +7,7 @@ const appReducer = (state, action) => {
     case "get_profile":
       return {
         data: action.payload,
-        status: action.isLoggedIn, 
+        status: action.isLoggedIn,
       };
     case "get_movie":
       return {
@@ -19,7 +19,7 @@ const appReducer = (state, action) => {
       SecureStore.deleteItemAsync("pwd");
       return {
         data: {},
-        status: false, 
+        status: false,
       };
     default:
       return state;
@@ -53,11 +53,12 @@ const getProfileData = (dispatch) => {
 };
 
 const getMovieData = (dispatch) => {
-  return async () => {
+  return async (previousArr, movie) => {
     //
+    let copyArr = [...previousArr]
     try {
       const response = await fetch(
-        `${"http://www.omdbapi.com/?i=tt3896198&apikey=afd0d793"}`,
+        `http://www.omdbapi.com/?i=tt3896198&apikey=afd0d793&t=${movie}`,
         {
           method: "GET",
           headers: {
@@ -68,11 +69,12 @@ const getMovieData = (dispatch) => {
         }
       );
       let resJson = await response.text();
-      // console.log(resJson);
       let data = JSON.parse(resJson.trim());
+      copyArr.push(data)
+      //
       dispatch({
         type: "get_movie",
-        payload: data,
+        payload: copyArr,
       });
     } catch (err) {
       console.log(err);

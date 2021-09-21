@@ -9,7 +9,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Context } from "../Context/AppProvider"; 
+import { Context } from "../Context/AppProvider";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -27,21 +27,21 @@ export default function SignIn() {
         />
       </View>
       <View style={styles.row}>
-        <Text style={styles.textWhite}>Hello from Sign In</Text>
+        <Text style={styles.textWhite}>Hello Film Geek !</Text>
       </View>
       <View style={[styles.column]}>
         <Input
-          placeholder="Email"
+          placeholder="  Email"
           labelStyle={{ color: "white" }}
-          leftIcon={{ type: "font-awesome", name: "chevron-left" }}
+          leftIcon={{ type: "font-awesome", name: "user" }}
           onChangeText={(value) => {
             setEmail(value);
           }}
         />
         <Input
-          placeholder="Password"
+          placeholder="  Password"
           secureTextEntry={true}
-          leftIcon={{ type: "font-awesome", name: "chevron-left" }}
+          leftIcon={{ type: "font-awesome", name: "lock" }}
           onChangeText={(value) => {
             setPwd(value);
           }}

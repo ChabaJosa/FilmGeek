@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 //
-import Home from "../Home";
-import IconMenu from "../components/MenuIcon";
+import HomeScreen from "../Home";
+import MenuIcon from "../components/MenuIcon";
 
 const HomeStack = createStackNavigator();
 
@@ -11,19 +11,22 @@ const HomeStackScreen = ({ navigation }) => (
     screenOptions={{
       gestureEnabled: true,
       gestureDirection: "horizontal",
-      headerShown: false,
+      headerStyle: {
+        backgroundColor: "black",
+      },
+      // headerShown: false,
     }}
   >
     <HomeStack.Screen
       name="Home"
-      component={Home}
-      // options={({ navigation }) => {
-      //   return {
-      //     headerTitle: () => (
-      //       <IconMenu navigation={navigation} name={"Home"} logo={true} />
-      //     ),
-      //   };
-      // }}
+      component={HomeScreen}
+      options={({ navigation }) => {
+        return {
+          headerTitle: () => (
+            <MenuIcon name={"Home"} navigation={navigation} darkMode={true} />
+          ),
+        };
+      }}
     />
   </HomeStack.Navigator>
 );

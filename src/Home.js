@@ -1,27 +1,74 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
+import { Input, Button } from "react-native-elements";
 import { Context } from "./Context/AppProvider";
 import MovieContainer from "./components/MovieContainer";
 
 export default function Home() {
   const { state, getMovieData } = useContext(Context);
+  const [search, setSearch] = useState("Tenet");
   //
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed === true) {
-      getMovieData();
+      getMovieData([], "Tenet");
     }
     return () => (isSubscribed = false);
   }, []);
   //
-  //   console.log("State from home", state);
+  function searchHelper() {
+    getMovieData(state.movieData, search);
+  }
+  //
+  console.log("State from home", state);
   if (state.movieData != undefined) {
     console.log(state.movieData);
     return (
       <View style={styles.containerStyle}>
         {/* <Text style={styles.textWhite}>Hi</Text> */}
-        <View style={{ flex: 0.5 }}>
-          <MovieContainer data={state.movieData} />
+        <View style={{ flex: 1 }}>
+          <Input
+            placeholder="  Movie"
+            inputContainerStyle={{ margin: 16 }}
+            labelStyle={{ color: "white", padding: 8 }}
+            leftIcon={{ type: "font-awesome", name: "search" }}
+            onChangeText={(value) => {
+              setSearch(value);
+            }}
+          />
+        </View>
+        <View style={{ flex: 6 }}>
+          {/* <MovieContainer data={state.movieData} /> */}
+          {state.movieData != undefined && state.movieData.length >= 1 ? (
+            <FlatList
+              data={state.movieData}
+              keyExtractor={(item) => String(item.Title)}
+              renderItem={({ item, index }) => <MovieContainer data={item} />}
+            />
+          ) : (
+            <View style={[styles.containerStyle, { alignItems: "center" }]}>
+              <Text style={styles.textWhite}>Nothing here yet!</Text>
+            </View>
+          )}
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button
+            title="Find Movie"
+            buttonStyle={{
+              width: "50%",
+              alignSelf: "center",
+              backgroundColor: "#ffc92b",
+              color: "black",
+              marginTop: 8
+            }}
+            onPress={searchHelper}
+          />
         </View>
       </View>
     );
@@ -38,6 +85,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     backgroundColor: "black",
+    // justifyContent:'center'
   },
   title: {
     fontSize: 20,

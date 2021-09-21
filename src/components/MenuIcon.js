@@ -1,57 +1,33 @@
 import React from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Image, Icon } from "react-native-elements";
 
-const MenuIcon = ({ navigation, name, logo, background }) => {
+const { height, width } = Dimensions.get("screen");
+
+const MenuIcon = ({ navigation, name, darkMode }) => {
   //
   function toggleHelper() {
     navigation.toggleDrawer();
   }
   //
   return (
-    <>
-      {logo ? (
-        <View
-          style={[
-            styles.container,
-            { backgroundColor: background ? `${background}` : "white" },
-          ]}
-        >
-          <View style={styles.firstView}>
-            <Icon
-              name="menu"
-              color={background ? "white" : "black"}
-              onPress={toggleHelper}
-            />
-          </View>
-          <View style={(styles.secondView, {})}>
-            <Image
-              source={require("../../assets/yoda.jpg")}
-              style={styles.logoDesign}
-              resizeMode="contain"
-              PlaceholderContent={<ActivityIndicator />}
-            />
-          </View>
-        </View>
-      ) : (
-        <View
-          style={[styles.container, { color: background ? "white" : "black" }]}
-        >
-          <View style={styles.firstView}>
-            <Icon
-              name="menu"
-              color={background ? "white" : "black"}
-              onPress={toggleHelper}
-            />
-          </View>
-          <View style={[styles.secondView, styles.secondViewB]}>
-            <Text style={{ color: background ? "white" : "black" }}>
-              {name}
-            </Text>
-          </View>
-        </View>
-      )}
-    </>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: darkMode ? "black" : "white" },
+      ]}
+    >
+      <View style={styles.firstView}>
+        <Icon
+          name="menu"
+          color={darkMode ? "white" : "black"}
+          onPress={toggleHelper}
+        />
+      </View>
+      <View style={styles.secondView}>
+        <Text style={{ color: darkMode ? "white" : "black" }}>{name}</Text>
+      </View>
+    </View>
   );
 };
 
@@ -59,9 +35,11 @@ export default MenuIcon;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    minWidth: "100%",
     flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    minWidth: "100%",
+    // width: width,
   },
   firstView: {
     flex: 1,
@@ -73,13 +51,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-  },
-  secondViewB: {
-    marginRight: "25%",
-  },
-  logoDesign: {
-    width: 160,
-    height: 40,
-    marginRight: "30.333%",
+    marginRight: "15%",
   },
 });

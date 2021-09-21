@@ -10,7 +10,7 @@ const MovieContainer = ({ data, navigation, index }) => {
   //     index,
   //   });
   // }
-  //
+  //s
   return (
     <View style={styles.container}>
       <Text style={styles.boldTitle}>{data.Title}</Text>
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     borderColor: "lightslategrey",
     borderWidth: 1,
     borderRadius: 8,
+    height: 250,
   },
   firstRow: {
     flex: 2,

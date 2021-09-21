@@ -10,7 +10,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 //
 import HomeStackScreen from "./HomeStack";
-// import ProfileStackScreen from "./ProfileStack";
+import ProfileStackScreen from "./ProfileStack";
 import { Context } from "../Context/AppProvider";
 //
 const DrawerStack = createDrawerNavigator();
@@ -31,7 +31,7 @@ const DrawerContent = (props) => {
   }
   //
   function goProfile() {
-    props.navigation.navigate("Profile");
+    props.navigation.navigate("DrawerProfile");
   }
   //
   async function logoutHelper() {
@@ -104,12 +104,15 @@ const DrawerScreen = () => {
           activeBackgroundColor: "transparent",
           activeTintColor: "white",
           inactiveTintColor: "white",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          headerShown: false,
         }}
         sceneContainerStyle={{ backgroundColor: "transparent" }}
         drawerContent={(props) => <DrawerContent {...props} />}
       >
-        <DrawerStack.Screen name="Home" component={HomeStackScreen} />
-        {/* <DrawerStack.Screen name="Profile" component={ProfileStackScreen} /> */}
+        <DrawerStack.Screen name="Main" component={HomeStackScreen} />
+        <DrawerStack.Screen name="DrawerProfile" component={ProfileStackScreen} />
       </DrawerStack.Navigator>
     </LinearGradient>
   );
