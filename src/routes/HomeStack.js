@@ -2,9 +2,10 @@ import React from "react";
 import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 //
-import HomeScreen from "../Home";
+import HomeScreen from "../screens/Home";
 import MenuIcon from "../components/MenuIcon";
 import Details from "../screens/details";
+import TitleRate from "../screens/TitleRate";
 
 const HomeStack = createStackNavigator();
 
@@ -43,6 +44,24 @@ const HomeStackScreen = ({ navigation }) => (
           headerTitle: () => (
             <MenuIcon
               name={"Movie Details"}
+              navigation={navigation}
+              darkMode={true}
+              rightMargin={"-15%"}
+            />
+          ),
+          headerLeft: () => <View />,
+          headerLeftContainerStyle: { maxWidth: 0 },
+        };
+      }}
+    />
+    <HomeStack.Screen
+      name="Title-Rate"
+      component={TitleRate}
+      options={({ navigation }) => {
+        return {
+          headerTitle: () => (
+            <MenuIcon
+              name={"Title Rate"}
               navigation={navigation}
               darkMode={true}
               rightMargin={"-15%"}

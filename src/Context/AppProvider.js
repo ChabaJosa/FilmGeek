@@ -14,6 +14,11 @@ const appReducer = (state, action) => {
         ...state,
         movieData: action.payload,
       };
+    case "get_movie_array":
+      return {
+        ...state,
+        movieArrData: action.payload,
+      };
     case "logout":
       SecureStore.deleteItemAsync("user");
       SecureStore.deleteItemAsync("pwd");
@@ -55,7 +60,7 @@ const getProfileData = (dispatch) => {
 const getMovieData = (dispatch) => {
   return async (previousArr, movie) => {
     //
-    let copyArr = [...previousArr]
+    let copyArr = [...previousArr];
     try {
       const response = await fetch(
         `http://www.omdbapi.com/?i=tt3896198&apikey=afd0d793&t=${movie}`,
@@ -70,11 +75,40 @@ const getMovieData = (dispatch) => {
       );
       let resJson = await response.text();
       let data = JSON.parse(resJson.trim());
-      copyArr.push(data)
+      copyArr.push(data);
       //
       dispatch({
         type: "get_movie",
         payload: copyArr,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+const getMovieArr = (dispatch) => {
+  return async (movie) => {
+    //
+    try {
+      const response = await fetch(
+        `http://www.omdbapi.com/?i=tt3896198&apikey=afd0d793&s=${movie}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          // body: JSON.stringify({}),
+        }
+      );
+      let resJson = await response.text();
+      let data = JSON.parse(resJson.trim());
+      console.log(data);
+      //
+      dispatch({
+        type: "get_movie_array",
+        payload: data,
       });
     } catch (err) {
       console.log(err);
@@ -95,6 +129,7 @@ export const { Context, Provider } = createDataContext(
   {
     getProfileData,
     getMovieData,
+    getMovieArr,
     logoutProfile,
   },
   []

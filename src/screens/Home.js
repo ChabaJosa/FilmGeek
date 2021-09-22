@@ -7,39 +7,39 @@ import {
   FlatList,
 } from "react-native";
 import { Input, Button } from "react-native-elements";
-import { Context } from "./Context/AppProvider";
-import MovieContainer from "./components/MovieContainer";
+import { Context } from "../Context/AppProvider";
+import SearchContainer from "../components/SearchContainer";
 
 export default function Home({ navigation }) {
-  const { state, getMovieData } = useContext(Context);
+  const { state, getMovieArr } = useContext(Context);
   const [search, setSearch] = useState("Tenet");
+  //
+  //  Tab Navigator for Marvel, Star Wars APIs?
   //
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed === true) {
-      getMovieData([], "Tenet");
+      getMovieArr("Star Wars");
     }
     return () => (isSubscribed = false);
   }, []);
   //
   function searchHelper() {
+    console.log("hello");
     let searchArr = String(search).split(" ");
     if (searchArr.length > 1) {
-      searchArr.join("+");
+      getMovieArr(searchArr.join("+"));
     } else {
-      getMovieData(state.movieData, search);
+      getMovieArr(search);
     }
   }
   //
-  // console.log("State from home", state);
-  if (state.movieData != undefined) {
-    // console.log(navigation);
+  if (state.movieArrData != undefined) {
     return (
       <View style={styles.containerStyle}>
-        {/* <Text style={styles.textWhite}>Hi</Text> */}
         <View style={{ flex: 1 }}>
           <Input
-            placeholder="Movie"
+            placeholder="Search For..."
             inputContainerStyle={{ margin: 16 }}
             inputStyle={{ color: "white" }}
             labelStyle={{ padding: 8 }}
@@ -50,12 +50,13 @@ export default function Home({ navigation }) {
           />
         </View>
         <View style={{ flex: 6 }}>
-           {state.movieData != undefined && state.movieData.length >= 1 ? (
+          {state.movieArrData.Search != undefined &&
+          state.movieArrData.Search.length >= 1 ? (
             <FlatList
-              data={state.movieData}
-              keyExtractor={(item) => String(item.Title)}
+              data={state.movieArrData.Search}
+              keyExtractor={(item) => String(item.imdbID)}
               renderItem={({ item, index }) => (
-                <MovieContainer
+                <SearchContainer
                   data={item}
                   navigation={navigation}
                   index={index}
@@ -97,6 +98,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     backgroundColor: "black",
+    paddingHorizontal: 8,
     // justifyContent:'center'
   },
   title: {

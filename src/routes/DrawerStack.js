@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View, BackHandler } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Image } from "react-native-elements";
 import {
   DrawerItem,
@@ -10,7 +10,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 //
 import HomeStackScreen from "./HomeStack";
-import ProfileStackScreen from "./ProfileStack";
+import TitleRate from "../screens/TitleRate";
+import Profile from "../screens/profile";
 import { Context } from "../Context/AppProvider";
 //
 const DrawerStack = createDrawerNavigator();
@@ -26,8 +27,8 @@ const DrawerContent = (props) => {
     props.navigation.navigate("Home", { screen: "Home" });
   }
   //
-  function goNotifications() {
-    props.navigation.navigate("Notification");
+  function goTitleRate() {
+    props.navigation.navigate("TitleRate");
   }
   //
   function goProfile() {
@@ -72,6 +73,12 @@ const DrawerContent = (props) => {
             icon={() => <AntDesign name="home" color="white" size={16} />}
           />
           <DrawerItem
+            label="Title Rate"
+            labelStyle={styles.drawerLabel}
+            onPress={goTitleRate}
+            icon={() => <AntDesign name="phone" color="white" size={16} />}
+          />
+          <DrawerItem
             label="Profile"
             labelStyle={styles.drawerLabel}
             onPress={goProfile}
@@ -112,7 +119,8 @@ const DrawerScreen = () => {
         drawerContent={(props) => <DrawerContent {...props} />}
       >
         <DrawerStack.Screen name="Main" component={HomeStackScreen} />
-        <DrawerStack.Screen name="DrawerProfile" component={ProfileStackScreen} />
+        <DrawerStack.Screen name="TitleRate" component={TitleRate} />
+        <DrawerStack.Screen name="DrawerProfile" component={Profile} />
       </DrawerStack.Navigator>
     </LinearGradient>
   );
