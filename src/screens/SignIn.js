@@ -6,7 +6,9 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
+import * as firebase from "firebase";
 import Icon from "react-native-vector-icons/FontAwesome";
+//
 import { Input, Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Context } from "../Context/AppProvider";
@@ -17,6 +19,27 @@ export default function SignIn() {
   const { state, getProfileData } = useContext(Context);
   const [email, setEmail] = useState(null);
   const [pwd, setPwd] = useState(null);
+  //
+  function handleSignUp() {
+    if (email != null && pwd != null) {
+      console.log(email, pwd);
+      let trimUser = email.toString().trim();
+      let trimPwd = pwd.toString().trim();
+      //
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(trimUser, trimPwd)
+        .then((userCredentials) => {
+          // console.log(userCredentials)
+          const user = userCredentials.user;
+          console.log("Succesfully registered", user.email);
+        })
+        .catch((err) => console.log(err.message));
+    } else {
+      alert("Hey put something on Email or Password!");
+    }
+  }
+  //
   // console.log(state);
   return (
     <View style={styles.containerStyle}>
@@ -26,41 +49,43 @@ export default function SignIn() {
           style={styles.imageBackground}
         />
       </View>
-      <View style={styles.row}>
-        <Text style={styles.textWhite}>Hello Film Geek !</Text>
-      </View>
-      <View style={[styles.column]}>
-        <Input
-          placeholder="  Email"
-          labelStyle={{ color: "white" }}
-          inputStyle={{ color: "white" }}
-          leftIcon={{ type: "font-awesome", name: "user" }}
-          onChangeText={(value) => {
-            setEmail(value);
-          }}
-        />
-        <Input
-          placeholder="  Password"
-          secureTextEntry={true}
-          inputStyle={{ color: "white" }}
-          leftIcon={{ type: "font-awesome", name: "lock" }}
-          onChangeText={(value) => {
-            setPwd(value);
-          }}
-        />
+      <View style={styles.innerContainer}>
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder="  Email"
+            labelStyle={{ color: "white" }}
+            inputStyle={{ color: "white" }}
+            autoCapitalize="none"
+            leftIcon={{ type: "font-awesome", name: "user", color: "white" }}
+            containerStyle={{ minWidth: "100%", padding: 16 }}
+            onChangeText={(value) => {
+              setEmail(value);
+            }}
+          />
+          <Input
+            placeholder="  Password"
+            secureTextEntry={true}
+            inputStyle={{ color: "white" }}
+            leftIcon={{ type: "font-awesome", name: "lock", color: "white" }}
+            containerStyle={{ minWidth: "100%", padding: 16 }}
+            onChangeText={(value) => {
+              setPwd(value);
+            }}
+          />
+        </View>
         <View style={styles.row}>
           <TouchableOpacity
-            style={{
-              backgroundColor: "#ffc92b",
-              padding: 24,
-              margin: 24,
-              borderRadius: 24,
-            }}
+            style={styles.btns}
             onPress={() => {
               getProfileData(email, pwd);
             }}
           >
-            <Text>Movies!</Text>
+            <Text style={styles.btnText}>Movies!</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.btns} onPress={handleSignUp}>
+            <Text style={styles.btnText}>Register</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -74,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "Helvetica",
   },
   textWhite: {
@@ -83,17 +108,24 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: "row",
-    paddingHorizontal: 5,
-    paddingTop: 5,
+    paddingHorizontal: 8,
+    paddingTop: 8,
     justifyContent: "center",
     alignItems: "center",
   },
-  column: {
+  innerContainer: {
     flex: 3,
-    paddingHorizontal: 5,
-    paddingTop: 5,
+    paddingHorizontal: 8,
+    paddingTop: 8,
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  inputContainer: {
+    minWidth: "100%",
+    justifyContent: "center",
+    flex: 3,
+    // borderColor: "white",
+    // borderWidth: 1,
   },
   imageContainer: {
     backgroundColor: "white",
@@ -108,10 +140,14 @@ const styles = StyleSheet.create({
     flex: 1,
     zIndex: 1,
   },
-  gradient: {
-    zIndex: 2,
-    height: height,
-    width: width,
-    position: "absolute",
+  btns: {
+    backgroundColor: "#ffc92b",
+    padding: 24,
+    borderRadius: 24,
+    minWidth: "100%",
+    alignItems: "center",
+  },
+  btnText: {
+    fontSize: 16,
   },
 });

@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as Notifications from "expo-notifications";
 import * as firebase from "firebase";
 //
 import Keys from "./src/constants/keys";
@@ -16,12 +15,15 @@ const RootStack = createStackNavigator();
 const RootStackScreen = () => {
   const { state } = useContext(Context);
   //
-  useEffect(() => {
+  useEffect( () => {
     let isSubscribed = true;
     if (isSubscribed === true) {
-      if (!firebase.apps.length) {
+      if (firebase.apps.length === 0) {
         firebase.initializeApp(Keys.FirebaseConfig);
       }
+      //
+      // Else It's Already Initialized
+      //
     }
     return () => (isSubscribed = false);
   }, []);
