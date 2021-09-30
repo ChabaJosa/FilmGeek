@@ -22,7 +22,6 @@ export default function SignIn() {
   //
   function handleSignUp() {
     if (email != null && pwd != null) {
-      console.log(email, pwd);
       let trimUser = email.toString().trim();
       let trimPwd = pwd.toString().trim();
       //
@@ -32,7 +31,26 @@ export default function SignIn() {
         .then((userCredentials) => {
           // console.log(userCredentials)
           const user = userCredentials.user;
-          console.log("Succesfully registered", user.email);
+          console.log("Succesfully registered  ", user.email);
+        })
+        .catch((err) => console.log(err.message));
+    } else {
+      alert("Hey put something on Email or Password!");
+    }
+  }
+  //
+  function handleLogIn() {
+    if (email != null && pwd != null) {
+      let trimUser = email.toString().trim();
+      let trimPwd = pwd.toString().trim();
+      //
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(trimUser, trimPwd)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          console.log("Succesfully Logged In as  ", user.email);
+          console.log(userCredentials);
         })
         .catch((err) => console.log(err.message));
     } else {
@@ -76,11 +94,12 @@ export default function SignIn() {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.btns}
-            onPress={() => {
-              getProfileData(email, pwd);
-            }}
+            onPress={
+              // getProfileData(email, pwd);
+              handleLogIn
+            }
           >
-            <Text style={styles.btnText}>Movies!</Text>
+            <Text style={styles.btnText}>Log In</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
