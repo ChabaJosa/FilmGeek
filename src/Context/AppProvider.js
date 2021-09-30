@@ -1,13 +1,20 @@
 import createDataContext from "./CreateDataContext";
-import Constants from "expo-constants";
-import * as SecureStore from "expo-secure-store";
+import * as firebase from "firebase";
+// import * as SecureStore from "expo-secure-store";
 
 const appReducer = (state, action) => {
   switch (action.type) {
+    case "get_new_profile":
+      return {
+        data: action.payload,
+        status: action.isLoggedIn,
+        message: action.message,
+      };
     case "get_profile":
       return {
         data: action.payload,
         status: action.isLoggedIn,
+        message: action.message,
       };
     case "get_movie":
       return {
@@ -20,8 +27,8 @@ const appReducer = (state, action) => {
         movieArrData: action.payload,
       };
     case "logout":
-      SecureStore.deleteItemAsync("user");
-      SecureStore.deleteItemAsync("pwd");
+      // SecureStore.deleteItemAsync("user");
+      // SecureStore.deleteItemAsync("pwd");
       return {
         data: {},
         status: false,
@@ -31,14 +38,69 @@ const appReducer = (state, action) => {
   }
 };
 
-const getProfileData = (dispatch) => {
-  return async (id, pwd) => {
+const createProfile = (dispatch) => {
+  return async (usr, pwd) => {
     // SecureStore.getItemAsync("user");
     // SecureStore.getItemAsync("pwd");
     //
-    console.log(id, pwd);
-    let data = { name: "John Denver" };
     try {
+      let data = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(usr, pwd)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          return (dataRes = {
+            name: user.email,
+            token: user.refreshToken,
+          });
+        });
+      //
+      if (data != undefined) {
+        dispatch({
+          type: "get_new_profile",
+          payload: data,
+          isLoggedIn: true,
+          message: "Succesfull Register",
+        });
+      } else {
+        dispatch({
+          type: "get_new_profile",
+          payload: {},
+          isLoggedIn: false,
+          message: "Error Upon Register",
+        });
+      }
+      //
+    } catch (err) {
+      alert(err);
+      dispatch({
+        type: "get_new_profile",
+        payload: {},
+        isLoggedIn: false,
+        message: "Error Upon Register",
+      });
+    }
+  };
+};
+
+const getProfileData = (dispatch) => {
+  return async (usr, pwd) => {
+    // SecureStore.getItemAsync("user");
+    // SecureStore.getItemAsync("pwd");
+    //
+    try {
+      let data = await firebase
+        .auth()
+        .signInWithEmailAndPassword(usr, pwd)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          // console.log("Succesfully LoggedIn  ", user.email);
+          return (dataRes = {
+            name: user.email,
+            token: user.refreshToken,
+          });
+        });
+      //
       dispatch({
         type: "get_profile",
         payload: data,
@@ -46,7 +108,7 @@ const getProfileData = (dispatch) => {
         message: "Succesfull Sign In",
       });
     } catch (err) {
-      console.log(err);
+      alert(err);
       dispatch({
         type: "get_profile",
         payload: {},
@@ -127,6 +189,7 @@ const logoutProfile = (dispatch) => {
 export const { Context, Provider } = createDataContext(
   appReducer,
   {
+    createProfile,
     getProfileData,
     getMovieData,
     getMovieArr,

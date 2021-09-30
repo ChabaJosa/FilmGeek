@@ -19,7 +19,7 @@ const DrawerStack = createDrawerNavigator();
 const DrawerContent = (props) => {
   const { logoutProfile, state } = useContext(Context);
   let name = [];
-  if (state.data.name != undefined) {
+  if (state.data != undefined && state.data.name != undefined) {
     name = state.data.name.split(" ");
   }
   //
@@ -57,7 +57,7 @@ const DrawerContent = (props) => {
           />
           <Text style={styles.nameText}>
             Hi{" "}
-            {state.data.name != undefined
+            {state.data != undefined && state.data.name != undefined
               ? name[0].substr(0, 1) + name[0].substr(1, 10).toLowerCase()
               : "Tony"}
           </Text>
