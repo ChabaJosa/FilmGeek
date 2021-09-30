@@ -24,6 +24,9 @@ const Profile = ({ navigation }) => {
   const { state } = useContext(Context);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [fireUrl, setFireUrl] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/filmgeek-e8fa8.appspot.com/o/2021-09-30T17%3A48%3A15.868Z?alt=media&token=16cb4f54-d281-4036-ae26-028f26be3ab7"
+  );
   //
   // Firebase sets some timeers for a long period, which will trigger some warnings.
   LogBox.ignoreLogs([`Setting a timer for a long period`]);
@@ -52,6 +55,7 @@ const Profile = ({ navigation }) => {
     //
     if (!result.cancelled) {
       setImage(result.uri);
+      setFireUrl(null);
     }
   }
   //
@@ -92,6 +96,7 @@ const Profile = ({ navigation }) => {
           setUploading(false);
           console.log("Download URL : ", url);
           blob.close();
+          setFireUrl(url);
           return url;
         });
       }
@@ -103,6 +108,18 @@ const Profile = ({ navigation }) => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.accountDetails}>
+          <View style={styles.imageContainer}>
+            {fireUrl !== null ? (
+              <>
+                <Image
+                  source={{
+                    uri: fireUrl,
+                  }}
+                  style={styles.avatar}
+                />
+              </>
+            ) : null}
+          </View>
           <View style={styles.textColumn}>
             <Text style={styles.subtitle}>Hi, {state.data.name}</Text>
           </View>
@@ -138,7 +155,7 @@ const Profile = ({ navigation }) => {
                 onPress={uploadImage}
               />
             ) : (
-              <ActivityIndicator color="green"/>
+              <ActivityIndicator color="green" />
             )}
           </View>
         </View>
@@ -168,19 +185,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   accountDetails: {
-    flex: 1,
+    flex: 2,
     marginVertical: 16,
+    flexDirection: "row",
   },
   textColumn: {
     justifyContent: "flex-start",
     alignSelf: "center",
   },
   subtitle: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: "bold",
     padding: 8,
     textAlign: "center",
-    minWidth: width * 0.75,
+    // minWidth: width * 0.75,
   },
   policy: { textAlign: "center", padding: 8, margin: 16 },
   bottomContainer: {
@@ -196,13 +214,20 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 8,
     backgroundColor: "transparent",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "green",
     alignItems: "center",
     justifyContent: "center",
-    minWidth: 200,
-    minHeight: 225,
+    minWidth: 100,
+    minHeight: 125,
+    // borderRadius: 8,
+    // borderWidth: 1,
+    // borderColor: "green",
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderColor: "white",
+    borderWidth: 0.1,
   },
   blue: {
     backgroundColor: "blue",
