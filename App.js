@@ -1,7 +1,8 @@
 import React, { useContext, useRef, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as firebase from "firebase";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 //
 import Keys from "./src/constants/keys";
 import * as RootNavigation from "./src/routes/RootNavigationRef";
@@ -15,11 +16,13 @@ const RootStack = createStackNavigator();
 const RootStackScreen = () => {
   const { state } = useContext(Context);
   //
-  useEffect( () => {
+  useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed === true) {
       if (firebase.apps.length === 0) {
         firebase.initializeApp(Keys.FirebaseConfig);
+        // const db = firebase.getFirestore();
+        // console.log(db)
       }
       //
       // Else It's Already Initialized

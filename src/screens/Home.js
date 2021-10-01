@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
   }, []);
   //
   function searchHelper() {
-    console.log("hello");
+    // console.log("hello");
     let searchArr = String(search).split(" ");
     if (searchArr.length > 1) {
       getMovieArr(searchArr.join("+"));
@@ -88,7 +88,7 @@ export default function Home({ navigation }) {
   } else {
     return (
       <View style={[styles.containerStyle, { justifyContent: "center" }]}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="white" />
       </View>
     );
   }

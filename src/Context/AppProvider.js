@@ -1,5 +1,7 @@
 import createDataContext from "./CreateDataContext";
-import * as firebase from "firebase";
+import firebase from "firebase";
+import "firebase/auth";
+// import { getAuth, updateProfile } from "firebase/auth";
 // import * as SecureStore from "expo-secure-store";
 
 const appReducer = (state, action) => {
@@ -15,6 +17,11 @@ const appReducer = (state, action) => {
         data: action.payload,
         status: action.isLoggedIn,
         message: action.message,
+      };
+    case "updt_profile":
+      return {
+        ...state,
+        updateData: action.payload,
       };
     case "get_movie":
       return {
@@ -50,7 +57,9 @@ const createProfile = (dispatch) => {
         .then((userCredentials) => {
           const user = userCredentials.user;
           return (dataRes = {
-            name: user.email,
+            email: user.email,
+            name: user.displayName,
+            pic: user.photoURL,
             token: user.refreshToken,
           });
         });
@@ -94,9 +103,11 @@ const getProfileData = (dispatch) => {
         .signInWithEmailAndPassword(usr, pwd)
         .then((userCredentials) => {
           const user = userCredentials.user;
-          // console.log("Succesfully LoggedIn  ", user.email);
+          console.log("Succesfully LoggedIn  ", user);
           return (dataRes = {
-            name: user.email,
+            email: user.email,
+            name: user.displayName,
+            pic: user.photoURL,
             token: user.refreshToken,
           });
         });
@@ -114,6 +125,64 @@ const getProfileData = (dispatch) => {
         payload: {},
         isLoggedIn: false,
         message: "Error Upon SignIn",
+      });
+    }
+  };
+};
+
+const updateProfileData = (dispatch) => {
+  return async (name, photo) => {
+    // SecureStore.getItemAsync("user");
+    // SecureStore.getItemAsync("pwd");
+    // This helped a lot: https://rnfirebase.io/reference/auth/user
+    //
+    try {
+      let currUser = await firebase.auth().currentUser;
+      //
+      let newData = await firebase
+        .auth()
+        .currentUser.updateProfile({
+          displayName: name != null ? name : currUser.displayName,
+          photoURL: photo != null ? photo : currUser.photoURL,
+        })
+        .then(() => {
+          return currUser;
+        });
+      //
+      let data;
+      if (
+        newData.email != undefined &&
+        newData.displayName != undefined &&
+        newData.photoURL != undefined
+      ) {
+        data = {
+          email: newData.email,
+          name: newData.displayName,
+          pic: newData.photoURL,
+          token: newData.refreshToken,
+        };
+        //
+        dispatch({
+          type: "get_profile",
+          payload: data,
+          isLoggedIn: true,
+        message: "Succesfull User Update",
+        });
+      } else {
+        data = newData
+        //
+        dispatch({
+          type: "updt_profile",
+          payload: data,
+        });
+      }
+      //
+    } catch (err) {
+      console.log("Err2", err);
+      alert(err);
+      dispatch({
+        type: "updt_profile",
+        payload: {},
       });
     }
   };
@@ -166,7 +235,7 @@ const getMovieArr = (dispatch) => {
       );
       let resJson = await response.text();
       let data = JSON.parse(resJson.trim());
-      console.log(data);
+      // console.log(data);
       //
       dispatch({
         type: "get_movie_array",
@@ -191,6 +260,7 @@ export const { Context, Provider } = createDataContext(
   {
     createProfile,
     getProfileData,
+    updateProfileData,
     getMovieData,
     getMovieArr,
     logoutProfile,

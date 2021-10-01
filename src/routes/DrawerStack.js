@@ -59,7 +59,7 @@ const DrawerContent = (props) => {
             Hi{" "}
             {state.data != undefined && state.data.name != undefined
               ? name[0].substr(0, 1) + name[0].substr(1, 10).toLowerCase()
-              : "Tony"}
+              : "New Guy"}
           </Text>
           <Text style={styles.dateText}>
             {`${String(DateString).substring(3, 15)}`}

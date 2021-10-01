@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 export default function Details({ route }) {
   //
   const { index, data } = route.params;
-  console.log(index, data);
+  // console.log(index, data);
   return (
     <View style={styles.containerStyle}>
       <Text style={styles.title}>{data.Title}</Text>

@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
-} from "react-native";
-import * as firebase from "firebase";
+} from "react-native"; 
 //
 import { Input, Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -17,22 +16,13 @@ const { height, width } = Dimensions.get("screen");
 export default function SignIn() {
   const { state, getProfileData, createProfile } = useContext(Context);
   const [email, setEmail] = useState(null);
-  const [pwd, setPwd] = useState(null);
+  const [pwd, setPwd]     = useState(null);
   //
   async function handleSignUp() {
     if (email != null && pwd != null) {
       let trimUser = email.toString().trim();
       let trimPwd = pwd.toString().trim();
-      //
-      // firebase
-      //   .auth()
-      //   .createUserWithEmailAndPassword(trimUser, trimPwd)
-      //   .then((userCredentials) => {
-      //     // console.log(userCredentials)
-      //     const user = userCredentials.user;
-      //     console.log("Succesfully registered  ", user.email);
-      //   })
-      //   .catch((err) => console.log(err.message));
+      // 
       await createProfile(trimUser, trimPwd);
     } else {
       alert("Hey put something on Email or Password!");
@@ -43,23 +33,14 @@ export default function SignIn() {
     if (email != null && pwd != null) {
       let trimUser = email.toString().trim();
       let trimPwd = pwd.toString().trim();
-      //
-      // firebase
-      //   .auth()
-      //   .signInWithEmailAndPassword(trimUser, trimPwd)
-      //   .then((userCredentials) => {
-      //     const user = userCredentials.user;
-      //     console.log("Succesfully Logged In as  ", user.email);
-      //     console.log(userCredentials);
-      //   })
-      //   .catch((err) => console.log(err.message));
+      // 
       await getProfileData(trimUser, trimPwd);
     } else {
       alert("Hey put something on Email or Password!");
     }
   }
   //
-  console.log("State from SignIn", state);
+  // console.log("State from SignIn", state);
   return (
     <View style={styles.containerStyle}>
       <View style={styles.imageContainer}>
