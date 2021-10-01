@@ -51,10 +51,23 @@ const DrawerContent = (props) => {
     >
       <View style={styles.flexOne}>
         <View style={styles.flexContainer}>
-          <Image
-            source={require("../../assets/tony.png")}
-            style={styles.avatar}
-          />
+          {state.data.pic !== null ? (
+            <>
+              <Image
+                source={{
+                  uri: state.data.pic,
+                }}
+                style={styles.avatar}
+              />
+            </>
+          ) : (
+            <>
+              <Image
+                source={require("../../assets/tony.png")}
+                style={styles.avatar}
+              />
+            </>
+          )}
           <Text style={styles.nameText}>
             Hi{" "}
             {state.data != undefined && state.data.name != undefined

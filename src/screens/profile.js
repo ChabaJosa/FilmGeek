@@ -18,7 +18,7 @@ import { Input, Icon, Button } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import * as firebase from "firebase";
 //
-import { Context } from "../Context/AppProvider"; 
+import { Context } from "../Context/AppProvider";
 //
 const Profile = ({ navigation }) => {
   const { state, updateProfileData } = useContext(Context);
@@ -48,66 +48,74 @@ const Profile = ({ navigation }) => {
   function inputSetterHelper(val) {
     nameInput.current = val;
   }
-  function updateProfile() {
-    updateProfileData(nameInput.current, fireUrl);
-  }
   async function pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    }); 
+    });
     //
     if (!result.cancelled) {
       setImage(result.uri);
       setFireUrl(null);
     }
   }
-  async function uploadImage() {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function () {
-        reject(new TypeError("Network request failed."));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", image, true);
-      xhr.send(null);
-    });
-    //
-    const ref = firebase.storage().ref().child(new Date().toISOString());
-    const snapshot = ref.put(blob);
-    //
-    snapshot.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      () => {
-        setUploading(true);
-      },
-      (error) => {
-        setUploading(false);
-        console.log(error);
-        blob.close();
-        return;
-      },
-      () => {
-        snapshot.snapshot.ref.getDownloadURL().then((url) => {
-          setUploading(false);
-          console.log("Download URL : ", url);
+  async function uploadImage() {}
+  async function updateProfile() {
+    if (image != null) {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function () {
+          reject(new TypeError("Network request failed."));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", image, true);
+        xhr.send(null);
+      });
+      //
+      const ref = firebase.storage().ref().child(new Date().toISOString());
+      const snapshot = ref.put(blob);
+      //
+      snapshot.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        () => {
+          setUploading(true);
+        },
+        (error) => {
+          updateProfileData(nameInput.current, null);
+          console.log(error);
           blob.close();
-          setFireUrl(url);
-          return url;
-        });
-      }
-    );
+          setFireUrl(null);
+          setUploading(false);
+          return null;
+        },
+        () => {
+          snapshot.snapshot.ref.getDownloadURL().then((url) => {
+            updateProfileData(nameInput.current, url);
+            console.log("Download URL : ", url);
+            blob.close();
+            setFireUrl(url);
+            setUploading(false);
+            return url;
+          });
+        }
+      );
+      //
+      // if (fireUrl != null) {
+      //   console.log("Got to here", nameInput.current, fireUrl, url);
+      //   updateProfileData(nameInput.current, url);
+      // }
+    } else {
+      updateProfileData(nameInput.current, fireUrl);
+    }
   }
   //
   if (state.data != undefined) {
-    //
     // console.log(state);
-    //
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView
@@ -186,7 +194,7 @@ const Profile = ({ navigation }) => {
                       onPress={removeImage}
                     />
                   </View>
-                  <View style={styles.row}>
+                  {/* <View style={styles.row}>
                     {!uploading ? (
                       <Button
                         title="Upload"
@@ -196,15 +204,19 @@ const Profile = ({ navigation }) => {
                     ) : (
                       <ActivityIndicator color="green" />
                     )}
-                  </View>
+                  </View> */}
                 </View>
               </View>
               <View style={styles.updateProfile}>
-                <Button
-                  title="Update Profile"
-                  buttonStyle={styles.green}
-                  onPress={updateProfile}
-                />
+                {!uploading ? (
+                  <Button
+                    title="Update Profile"
+                    buttonStyle={styles.green}
+                    onPress={updateProfile}
+                  />
+                ) : (
+                  <ActivityIndicator color="green" />
+                )}
               </View>
             </ScrollView>
             <View>
@@ -258,7 +270,7 @@ const styles = StyleSheet.create({
     borderColor: "lightslategrey",
     borderWidth: 1,
     borderRadius: 8,
-    minHeight: 750,
+    minHeight: 600,
     // flexWrap: "wrap",
     paddingVertical: 8,
     backgroundColor: "#fff",
