@@ -30,7 +30,7 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Home"}
               navigation={navigation}
               darkMode={true}
-              rightMargin={"15%"}
+              leftMargin={"12%"}
             />
           ),
         };
@@ -46,7 +46,7 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Movie Details"}
               navigation={navigation}
               darkMode={true}
-              rightMargin={"-15%"}
+              leftMargin={"-15%"}
             />
           ),
           headerLeft: () => <View />,
@@ -64,7 +64,7 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Title Rate"}
               navigation={navigation}
               darkMode={true}
-              rightMargin={"-15%"}
+              leftMargin={"-15%"}
             />
           ),
           headerLeft: () => <View />,

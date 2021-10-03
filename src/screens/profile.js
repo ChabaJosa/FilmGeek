@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
-  ScrollView,
+  ImageBackground,
   KeyboardAvoidingView,
   Linking,
   TouchableOpacity,
@@ -105,10 +105,6 @@ const Profile = ({ navigation }) => {
         }
       );
       //
-      // if (fireUrl != null) {
-      //   console.log("Got to here", nameInput.current, fireUrl, url);
-      //   updateProfileData(nameInput.current, url);
-      // }
     } else {
       updateProfileData(nameInput.current, fireUrl);
     }
@@ -127,30 +123,66 @@ const Profile = ({ navigation }) => {
             <View style={styles.imageContainer}>
               {state.data.pic !== null ? (
                 <>
-                  <Image
+                  <ImageBackground
                     source={{
                       uri: state.data.pic,
                     }}
                     style={styles.avatar}
-                  />
+                    imageStyle={{
+                      borderRadius: 50,
+                      borderColor: "white",
+                      borderWidth: 0.1,
+                    }}
+                  >
+                    <Icon
+                      raised
+                      name="plus"
+                      type="font-awesome"
+                      color="#ffc92b"
+                      containerStyle={{
+                        marginRight: -24,
+                        marginBottom: -8,
+                        zIndex: 2,
+                      }}
+                      onPress={pickImage}
+                    />
+                  </ImageBackground>
                 </>
               ) : (
                 <>
-                  <Image
+                  <ImageBackground
                     source={require("../../assets/tony.png")}
                     style={styles.avatar}
-                  />
+                    imageStyle={{
+                      borderRadius: 50,
+                      borderColor: "white",
+                      borderWidth: 0.1,
+                    }}
+                  >
+                    <Icon
+                      raised
+                      name="plus"
+                      type="font-awesome"
+                      color="#ffc92b"
+                      containerStyle={{
+                        marginRight: -24,
+                        marginBottom: -8,
+                        zIndex: 2,
+                      }}
+                      onPress={pickImage}
+                    />
+                  </ImageBackground>
                 </>
               )}
             </View>
             <View style={styles.textColumn}>
               <Text style={styles.subtitle}>
-                Hi, {state.data.name != null ? state.data.name : "New Guy"}
+                {state.data.name != null ? state.data.name : "Hi New Guy"}
               </Text>
             </View>
           </View>
-          <View style={styles.scrollOuterView}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.flexF}>
+            <View style={styles.scrollContainer}>
               <View style={styles.titleRow}>
                 <Text style={styles.title}>Edit Profile </Text>
               </View>
@@ -169,44 +201,21 @@ const Profile = ({ navigation }) => {
                   // disabled={true}
                 />
               </View>
-              <View style={{ flex: 4 }}>
-                <View style={styles.bottomContainer}>
-                  <Text style={[styles.labelStyle, styles.profileLabel]}>
-                    Profile Picture
-                  </Text>
-                  <View style={styles.imageContainer}>
-                    {image != null ? (
-                      <Image
-                        source={{ uri: image }}
-                        style={{ width: 150, height: 150 }}
-                      />
-                    ) : null}
-                  </View>
-                  <View style={styles.betweenRow}>
-                    <Button
-                      title="Select"
-                      buttonStyle={styles.blue}
-                      onPress={pickImage}
-                    />
-                    <Button
-                      title="Remove"
-                      buttonStyle={styles.red}
-                      onPress={removeImage}
-                    />
-                  </View>
-                  {/* <View style={styles.row}>
-                    {!uploading ? (
-                      <Button
-                        title="Upload"
-                        buttonStyle={styles.green}
-                        onPress={uploadImage}
-                      />
-                    ) : (
-                      <ActivityIndicator color="green" />
-                    )}
-                  </View> */}
-                </View>
-              </View>
+              {/* <View style={styles.bottomContainer}>
+                <Text style={[styles.labelStyle, styles.profileLabel]}>
+                  Profile Picture
+                </Text>
+                <Button
+                  title="Select Image"
+                  buttonStyle={styles.grey}
+                  onPress={pickImage}
+                  icon={{
+                    name: "camera",
+                    size: 24,
+                    color: "white",
+                  }}
+                />
+              </View> */}
               <View style={styles.updateProfile}>
                 {!uploading ? (
                   <Button
@@ -218,15 +227,16 @@ const Profile = ({ navigation }) => {
                   <ActivityIndicator color="green" />
                 )}
               </View>
-            </ScrollView>
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL("https://www.imdb.com/");
-                }}
-              >
-                <Text style={styles.policy}>View Movie Data Source</Text>
-              </TouchableOpacity>
+
+              <View>
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL("https://www.imdb.com/");
+                  }}
+                >
+                  <Text style={styles.policy}>View Movie Data Source</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -243,7 +253,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 8,
-    backgroundColor: "#fff",
+    backgroundColor: "black",
     paddingHorizontal: 32,
   },
   accountDetails: {
@@ -260,23 +270,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 8,
     textAlign: "center",
+    color: "white",
     // minWidth: width * 0.75,
   },
-  scrollOuterView: {
+  flexF: {
     flex: 4,
+    // backgroundColor:"#ffc92b"
   },
   scrollContainer: {
     flex: 1,
-    borderColor: "lightslategrey",
+    justifyContent: "space-around",
+    borderColor: "#ffc92b",
+    backgroundColor: "#ffc92b",
     borderWidth: 1,
-    borderRadius: 8,
-    minHeight: 600,
+    borderTopStartRadius: 8,
+    borderTopEndRadius: 8,
+    // minHeight: 600,
     // flexWrap: "wrap",
     paddingVertical: 8,
     backgroundColor: "#fff",
     ...Platform.select({
       ios: {
-        paddingHorizontal: 32,
+        paddingHorizontal: 16,
+        marginHorizontal: 16,
       },
       android: {
         paddingHorizontal: 16,
@@ -285,6 +301,7 @@ const styles = StyleSheet.create({
   },
   titleRow: {
     flexDirection: "row",
+    backgroundColor: "transparent",
   },
   title: {
     flex: 1,
@@ -292,6 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 8,
+    backgroundColor: "transparent",
   },
   inputContainer: {
     borderWidth: 0.75,
@@ -324,10 +342,11 @@ const styles = StyleSheet.create({
   flexin: {
     flex: 1,
     flexDirection: "row",
+    backgroundColor: "transparent",
   },
-  policy: { textAlign: "center", padding: 8, margin: 16 },
+  policy: { textAlign: "center", padding: 8 },
   bottomContainer: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "space-around",
     backgroundColor: "white",
     borderColor: "lightslategrey",
@@ -335,6 +354,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minWidth: "100%",
     padding: 16,
+    minHeight: 100,
   },
   imageContainer: {
     padding: 8,
@@ -350,12 +370,14 @@ const styles = StyleSheet.create({
   avatar: {
     width: 100,
     height: 100,
-    borderRadius: 50,
-    borderColor: "white",
-    borderWidth: 0.1,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    // borderRadius: 50,
+    // borderColor: "white",
+    // borderWidth: 0.1,
   },
-  blue: {
-    backgroundColor: "blue",
+  grey: {
+    backgroundColor: "black",
     minWidth: 100,
   },
   red: {
@@ -367,9 +389,5 @@ const styles = StyleSheet.create({
     minWidth: 100,
   },
   row: { flexDirection: "row", justifyContent: "center" },
-  betweenRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   updateProfile: { flex: 1, justifyContent: "center", alignContent: "center" },
 });

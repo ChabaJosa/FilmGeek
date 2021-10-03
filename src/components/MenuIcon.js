@@ -4,10 +4,10 @@ import { Image, Icon } from "react-native-elements";
 
 const { height, width } = Dimensions.get("screen");
 
-const MenuIcon = ({ navigation, name, darkMode, rightMargin }) => {
+const MenuIcon = ({ navigation, name, darkMode, leftMargin }) => {
   //
   function toggleHelper() {
-    navigation.toggleDrawer();
+    navigation.navigate("Profile");
   }
   //
   return (
@@ -17,15 +17,15 @@ const MenuIcon = ({ navigation, name, darkMode, rightMargin }) => {
         { backgroundColor: darkMode ? "black" : "white" },
       ]}
     >
-      <View style={styles.firstView}>
+      <View style={[styles.firstView, { marginLeft: leftMargin }]}>
+        <Text style={{ color: darkMode ? "white" : "black" }}>{name}</Text>
+      </View>
+      <View style={[styles.secondView]}>
         <Icon
-          name="menu"
+          name="person"
           color={darkMode ? "white" : "black"}
           onPress={toggleHelper}
         />
-      </View>
-      <View style={[styles.secondView, { marginRight: rightMargin }]}>
-        <Text style={{ color: darkMode ? "white" : "black" }}>{name}</Text>
       </View>
     </View>
   );
@@ -44,12 +44,15 @@ const styles = StyleSheet.create({
   firstView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "flex-end",
+    // borderColor: "yellow",
+    // borderWidth: 1,
   },
   secondView: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    // color: "green",
+    // borderWidth: 1,
   },
 });

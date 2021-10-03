@@ -7,6 +7,7 @@ import 'firebase/firestore';
 import Keys from "./src/constants/keys";
 import * as RootNavigation from "./src/routes/RootNavigationRef";
 import DrawerScreen from "./src/routes/DrawerStack";
+import TabScreen from "./src/routes/Tabstack";
 import AuthStackScreen from "./src/routes/AuthStack";
 import { Provider, Context } from "./src/Context/AppProvider";
 
@@ -40,7 +41,9 @@ const RootStackScreen = () => {
       }}
     >
       {state.status ? (
-        <RootStack.Screen name="App" component={DrawerScreen} />
+        // <RootStack.Screen name="App" component={DrawerScreen} />
+        <RootStack.Screen name="App" component={TabScreen} />
+
       ) : (
         <RootStack.Screen
           name="Sign In and View Movies"
