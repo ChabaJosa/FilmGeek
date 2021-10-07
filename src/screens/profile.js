@@ -275,20 +275,19 @@ const styles = StyleSheet.create({
   },
   flexF: {
     flex: 4,
-    // backgroundColor:"#ffc92b"
+    backgroundColor:"transparent", // white
+    borderTopStartRadius: 8,
+    borderTopEndRadius: 8,
+    paddingBottom:16
   },
   scrollContainer: {
     flex: 1,
-    justifyContent: "space-around",
-    borderColor: "#ffc92b",
-    backgroundColor: "#ffc92b",
-    borderWidth: 1,
-    borderTopStartRadius: 8,
-    borderTopEndRadius: 8,
-    // minHeight: 600,
-    // flexWrap: "wrap",
-    paddingVertical: 8,
-    backgroundColor: "#fff",
+    justifyContent: "space-around", 
+    backgroundColor: "#ffc92b", 
+    // borderTopStartRadius: 8,
+    // borderTopEndRadius: 8, 
+    borderRadius:8,
+    paddingVertical: 8, 
     ...Platform.select({
       ios: {
         paddingHorizontal: 16,
@@ -330,7 +329,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingTop: 8,
     fontWeight: "normal",
-    color: "lightslategrey",
+    color: "white",
   },
   profileLabel: {
     marginTop: -24,
@@ -385,7 +384,7 @@ const styles = StyleSheet.create({
     minWidth: 100,
   },
   green: {
-    backgroundColor: "green",
+    backgroundColor: "black",
     minWidth: 100,
   },
   row: { flexDirection: "row", justifyContent: "center" },
