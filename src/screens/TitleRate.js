@@ -10,34 +10,34 @@ import { Input, Button } from "react-native-elements";
 import { Context } from "../Context/AppProvider";
 import MovieContainer from "../components/MovieContainer";
 //
-export default function TitleRate({ navigation }) {
+export default function TitleRate({ navigation, route }) {
   const { state, getMovieData } = useContext(Context);
-  const [search, setSearch] = useState("Tenet");
-  //
-  //  Tab Navigator for Marvel, Star Wars APIs?
-  //
+  const { title } = route.params;
+  // const [search, setSearch] = useState("Tenet");
+  // 
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed === true) {
-      getMovieData([], "Tenet");
+      let arr = state.movieData != undefined ? state.movieData : [];
+      getMovieData(arr, title);
     }
     return () => (isSubscribed = false);
   }, []);
   //
-  function searchHelper() {
-    let searchArr = String(search).split(" ");
-    if (searchArr.length > 1) {
-      searchArr.join("+");
-      getMovieData(state.movieData, searchArr.join("+"));
-    } else {
-      getMovieData(state.movieData, search);
-    }
-  }
+  // function searchHelper() {
+  //   let searchArr = String(search).split(" ");
+  //   if (searchArr.length > 1) {
+  //     searchArr.join("+");
+  //     getMovieData(state.movieData, searchArr.join("+"));
+  //   } else {
+  //     getMovieData(state.movieData, search);
+  //   }
+  // }
   //
   if (state.movieData != undefined) {
     return (
       <View style={styles.containerStyle}>
-        <View style={{ flex: 1 }}>
+        {/* <View style={{ flex: 1 }}>
           <Input
             placeholder="Title"
             inputContainerStyle={{ margin: 16 }}
@@ -48,8 +48,8 @@ export default function TitleRate({ navigation }) {
               setSearch(value);
             }}
           />
-        </View>
-        <View style={{ flex: 6 }}>
+        </View> */}
+        <View style={{ flex: 7 }}>
           {state.movieData != undefined && state.movieData.length >= 1 ? (
             <FlatList
               data={state.movieData}
@@ -68,7 +68,7 @@ export default function TitleRate({ navigation }) {
             </View>
           )}
         </View>
-        <View style={{ flex: 1 }}>
+        {/* <View style={{ flex: 1 }}>
           <Button
             title="Find Movie"
             titleStyle={{ color: "black" }}
@@ -81,7 +81,7 @@ export default function TitleRate({ navigation }) {
             }}
             onPress={searchHelper}
           />
-        </View>
+        </View> */}
       </View>
     );
   } else {

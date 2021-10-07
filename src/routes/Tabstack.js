@@ -14,12 +14,13 @@ const TabStack = createBottomTabNavigator();
 
 const TabScreen = () => {
   const { logoutProfile } = useContext(Context);
-
+  //
   return (
     <TabStack.Navigator
+      initialRouteName={"Search"}
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        headerShown:false,
+        headerShown: false,
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "whitesmoke",
         tabBarActiveBackgroundColor: "#ffc92b",
@@ -70,7 +71,7 @@ const TabScreen = () => {
           ),
         }}
       />
-      <TabStack.Screen
+      {/* <TabStack.Screen
         name="Rate"
         component={TitleRateScreen}
         options={{
@@ -83,7 +84,7 @@ const TabScreen = () => {
             />
           ),
         }}
-      />
+      /> */}
       <TabStack.Screen
         name="Logout"
         component={HomeStackScreen}

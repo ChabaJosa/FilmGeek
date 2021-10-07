@@ -1,10 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-elements";
 
 export default function SearchContainer({ data, navigation, index }) {
+  //
+  function navHelper() {
+    navigation.navigate("Title-Rate", {
+      title: data.Title,
+    });
+  }
+  //
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={navHelper}>
       <View style={{ width: "25%" }}>
         <Image source={{ uri: data.Poster }} style={styles.avatar} />
       </View>
@@ -14,7 +21,7 @@ export default function SearchContainer({ data, navigation, index }) {
           {"  "}({data.Year})
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

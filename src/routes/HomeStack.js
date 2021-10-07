@@ -30,7 +30,7 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Home"}
               navigation={navigation}
               darkMode={true}
-              leftMargin={"12%"}
+              leftMargin={"23%"}
             />
           ),
         };
@@ -46,11 +46,10 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Movie Details"}
               navigation={navigation}
               darkMode={true}
-              leftMargin={"-15%"}
+              leftMargin={"12%"}
             />
           ),
-          headerLeft: () => <View />,
-          headerLeftContainerStyle: { maxWidth: 0 },
+          headerTintColor: "white",
         };
       }}
     />
@@ -64,11 +63,14 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Title Rate"}
               navigation={navigation}
               darkMode={true}
-              leftMargin={"-15%"}
+              leftMargin={"12%"}
             />
           ),
-          headerLeft: () => <View />,
-          headerLeftContainerStyle: { maxWidth: 0 },
+          headerTintColor: "white",
+          // headerStyle:{ minWidth: 50} 
+          // headerLeft: () => <View />,
+          // headerLeftContainerStyle: { color: "white" },
+          // headerLeftContainerStyle: { maxWidth: 0 },
         };
       }}
     />
