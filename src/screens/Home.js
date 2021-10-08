@@ -170,7 +170,7 @@ export default function Home({ navigation }) {
             </View>
           )}
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginBottom: 8 }}>
           <Button
             title="Find Movie"
             titleStyle={{ color: "black" }}
@@ -179,7 +179,6 @@ export default function Home({ navigation }) {
               alignSelf: "center",
               backgroundColor: "#ffc92b",
               color: "black",
-              marginTop: 8,
             }}
             onPress={searchHelper}
           />
