@@ -255,7 +255,14 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     backgroundColor: "black",
     paddingHorizontal: 32,
-    paddingBottom: 64
+    ...Platform.select({
+      ios: {
+        paddingBottom: 0
+      },
+      android: { 
+        paddingBottom: 64
+      },
+    }),
   },
   accountDetails: {
     flex: 2,
@@ -279,7 +286,15 @@ const styles = StyleSheet.create({
     backgroundColor:"transparent", // white
     borderTopStartRadius: 8,
     borderTopEndRadius: 8,
-    paddingBottom:16
+    paddingBottom:16,
+    ...Platform.select({
+      ios: {
+        marginBottom: 64,
+      },
+      android: {
+        marginBottom: 0,
+      },
+    }),
   },
   scrollContainer: {
     flex: 1,

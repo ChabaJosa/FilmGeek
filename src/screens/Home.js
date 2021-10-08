@@ -9,6 +9,7 @@ import {
   Dimensions,
   Animated,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { Input, Button, Image } from "react-native-elements";
 import { Context } from "../Context/AppProvider";
@@ -170,16 +171,11 @@ export default function Home({ navigation }) {
             </View>
           )}
         </View>
-        <View style={{ flex: 1, marginBottom: 8 }}>
+        <View style={styles.btnContainer}>
           <Button
             title="Find Movie"
             titleStyle={{ color: "black" }}
-            buttonStyle={{
-              width: "50%",
-              alignSelf: "center",
-              backgroundColor: "#ffc92b",
-              color: "black",
-            }}
+            buttonStyle={styles.btn}
             onPress={searchHelper}
           />
         </View>
@@ -201,7 +197,14 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     paddingVertical: 16,
     paddingHorizontal: 8,
-    paddingBottom: 64
+    ...Platform.select({
+      ios: {
+        paddingBottom: 0,
+      },
+      android: {
+        paddingBottom: 64,
+      },
+    }),
     // borderColor: "white",
     // borderWidth: 1,
   },
@@ -244,5 +247,22 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "white",
     borderWidth: 0.1,
+  },
+  btnContainer: {
+    flex: 1,
+    ...Platform.select({
+      ios: {
+        marginBottom: 64,
+      },
+      android: {
+        marginBottom: 8,
+      },
+    }),
+  },
+  btn: {
+    width: "50%",
+    alignSelf: "center",
+    backgroundColor: "#ffc92b",
+    color: "black",
   },
 });
