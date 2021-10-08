@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,21 @@ import {
   ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
+  Dimensions,
+  Animated,
+  TouchableOpacity,
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, Image } from "react-native-elements";
 import { Context } from "../Context/AppProvider";
 import SearchContainer from "../components/SearchContainer";
+
+const { height, width } = Dimensions.get("screen");
 
 export default function Home({ navigation }) {
   const { state, getMovieArr } = useContext(Context);
   const [search, setSearch] = useState("Tenet");
   //
-  //  Tab Navigator for Marvel, Star Wars APIs?
+  const scrollX = useRef(new Animated.Value(0)).current;
   //
   useEffect(() => {
     let isSubscribed = true;
@@ -35,18 +40,21 @@ export default function Home({ navigation }) {
     }
   }
   //
+  const ITEM_SIZE = width * 0.72;
+  //
   if (state.movieArrData != undefined) {
+    //
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.containerStyle}
       >
-        {/* <View style={styles.containerStyle}> */}
         <View
           style={{
-            flex: 2,
+            flex: 1,
             alignItems: "center",
             justifyContent: "center",
+            marginBottom: 8,
             // borderColor: "green",
             // borderWidth: 1,
           }}
@@ -56,12 +64,9 @@ export default function Home({ navigation }) {
             containerStyle={{
               borderColor: "white",
               borderWidth: 1,
-              height: 75,
-              minHeight: "10%",
+              height: "100%",
               borderRadius: 32,
               backgroundColor: "black",
-              // alignItems:'center'
-              // padding: 8
             }}
             inputContainerStyle={{
               borderBottomWidth: 0,
@@ -87,19 +92,77 @@ export default function Home({ navigation }) {
             }}
           />
         </View>
-        <View style={{ flex: 6 }}>
+        <View
+          style={{
+            flex: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            paddingTop: 8,
+            // borderWidth: 1,
+            // borderColor: "white",
+          }}
+        >
           {state.movieArrData.Search != undefined &&
           state.movieArrData.Search.length >= 1 ? (
-            <FlatList
+            <Animated.FlatList
               data={state.movieArrData.Search}
-              keyExtractor={(item) => String(`${item.imdbID}+${Math.floor(Math.random()* 100)}`)}
-              renderItem={({ item, index }) => (
-                <SearchContainer
-                  data={item}
-                  navigation={navigation}
-                  index={index}
-                />
+              horizontal
+              contentContainerStyle={{
+                alignItems: "center",
+              }}
+              keyExtractor={(item) =>
+                String(`${item.imdbID}+${Math.floor(Math.random() * 100)}`)
+              }
+              snapToInterval={ITEM_SIZE} // Stops At Every Item like Carousel
+              decelerationRate={0} // Slows Down Scroll Like Carousel
+              bounce={false} // No bounce effect at beginning or end
+              scrollEventThrottle={16} // Use 1 here to make sure no events are ever missed
+              onScroll={Animated.event(
+                // Actual Animation Stuff
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: true }
               )}
+              renderItem={({ item, index }) => {
+                const inputRange = [
+                  (index - 1) * ITEM_SIZE,
+                  index * ITEM_SIZE,
+                  (index + 1) * ITEM_SIZE,
+                ];
+                //
+                const translateY = scrollX.interpolate({
+                  inputRange,
+                  outputRange: [0, -50, 0],
+                });
+                //
+                return (
+                  <View
+                    style={{
+                      width: ITEM_SIZE,
+                      marginTop: 32,
+                      // borderColor: "green",
+                      // borderWidth: 1,
+                    }}
+                  >
+                    <Animated.View
+                      style={{
+                        borderColor: "#ffc92b",
+                        borderWidth: 1,
+                        borderRadius: 16,
+                        marginHorizontal: 8,
+                        marginVertical: 24,
+                        padding: 8,
+                        transform: [{ translateY }],
+                      }}
+                    >
+                      <SearchContainer
+                        data={item}
+                        navigation={navigation}
+                        index={index}
+                      />
+                    </Animated.View>
+                  </View>
+                );
+              }}
             />
           ) : (
             <View style={[styles.containerStyle, { alignItems: "center" }]}>
@@ -163,5 +226,23 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  container: {
+    borderColor: "#ffc92b",
+    borderWidth: 1,
+    height: "100%",
+    // width: "100%",
+    justifyContent: "space-around",
+    padding: 8,
+    margin: 8,
+    alignItems: "center",
+    borderRadius: 16,
+  },
+  avatar: {
+    width: 60,
+    height: 120,
+    borderRadius: 8,
+    borderColor: "white",
+    borderWidth: 0.1,
   },
 });

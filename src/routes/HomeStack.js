@@ -52,6 +52,7 @@ const HomeStackScreen = ({ navigation }) => (
             />
           ),
           headerTintColor: "white",
+          headerLeft: () => null,
         };
       }}
     />
