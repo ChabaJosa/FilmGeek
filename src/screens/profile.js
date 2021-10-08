@@ -255,6 +255,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     backgroundColor: "black",
     paddingHorizontal: 32,
+    paddingBottom: 64
   },
   accountDetails: {
     flex: 2,
@@ -329,7 +330,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingTop: 8,
     fontWeight: "normal",
-    color: "white",
+    color: "black",
   },
   profileLabel: {
     marginTop: -24,

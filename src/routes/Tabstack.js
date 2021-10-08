@@ -21,14 +21,20 @@ const TabScreen = () => {
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerShown: false,
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "whitesmoke",
+        // tabBarActiveTintColor: "black",
+        // tabBarInactiveTintColor: "white",
         tabBarActiveBackgroundColor: "#ffc92b",
-        tabBarItemStyle: { borderTopStartRadius: 16, borderTopEndRadius: 16 },
+        tabBarItemStyle: {
+          borderRadius: 16,
+          // borderTopEndRadius: 16,
+          paddingVertical: 4,
+        },
         tabBarStyle: [
           {
-            display: "flex",
-            backgroundColor: "black",
+            // display: "flex",
+            // backgroundColor: "green",
+            position: 'absolute',
+            margin: 8,
             borderTopWidth: 0,
           },
           null,
@@ -39,7 +45,15 @@ const TabScreen = () => {
           //     intensity={1000}
           //     style={StyleSheet.absoluteFill}
           //   />
-          <View style={{ flex: 1, backgroundColor: "black" }} />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "black",
+              borderColor: "#ffc92b",
+              borderWidth: 1,
+              borderRadius: 16,
+            }}
+          />
         ),
       }}
     >
@@ -47,11 +61,12 @@ const TabScreen = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: "Profile",
+          // tabBarLabel: "Profile",
+          tabBarLabel:() => {return null},
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="account"
-              color={"whitesmoke"}
+              color={"white"}
               size={24}
             />
           ),
@@ -61,30 +76,17 @@ const TabScreen = () => {
         name="Search"
         component={HomeStackScreen}
         options={{
-          tabBarLabel: "Search",
+          // tabBarLabel: "Search", 
+          tabBarLabel:() => {return null},
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="search-web"
-              color={"whitesmoke"}
+              color={"white"}
               size={24}
             />
           ),
         }}
       />
-      {/* <TabStack.Screen
-        name="Rate"
-        component={TitleRateScreen}
-        options={{
-          tabBarLabel: "Rate",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="popcorn"
-              color={"whitesmoke"}
-              size={24}
-            />
-          ),
-        }}
-      /> */}
       <TabStack.Screen
         name="Logout"
         component={HomeStackScreen}
@@ -98,10 +100,11 @@ const TabScreen = () => {
               }}
             />
           ),
+          tabBarLabel:() => {return null},
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="logout"
-              color={"whitesmoke"}
+              color={"white"}
               size={24}
             />
           ),
