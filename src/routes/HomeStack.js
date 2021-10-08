@@ -15,7 +15,15 @@ const HomeStackScreen = ({ navigation }) => (
       gestureEnabled: true,
       gestureDirection: "horizontal",
       headerStyle: {
+        height: 100,
+        // borderColor: "green",
+        // borderWidth: 0.5, 
         backgroundColor: "black",
+        shadowColor: "transparent",
+        shadowRadius: 0,
+        shadowOffset: {
+          height: 0,
+        },
       },
       // headerShown: false,
     }}
@@ -26,12 +34,7 @@ const HomeStackScreen = ({ navigation }) => (
       options={({ navigation }) => {
         return {
           headerTitle: () => (
-            <MenuIcon
-              name={"Home"}
-              navigation={navigation}
-              darkMode={true}
-              leftMargin={"23%"}
-            />
+            <MenuIcon name={"Home"} navigation={navigation} darkMode={true} />
           ),
         };
       }}
@@ -46,7 +49,6 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Movie Details"}
               navigation={navigation}
               darkMode={true}
-              leftMargin={"12%"}
             />
           ),
           headerTintColor: "white",
@@ -63,12 +65,11 @@ const HomeStackScreen = ({ navigation }) => (
               name={"Title Rate"}
               navigation={navigation}
               darkMode={true}
-              leftMargin={"12%"}
             />
           ),
           headerTintColor: "white",
-          // headerStyle:{ minWidth: 50} 
-          // headerLeft: () => <View />,
+          headerLeft: () => null,
+          // headerStyle:{ borderColor: 'transparent'},
           // headerLeftContainerStyle: { color: "white" },
           // headerLeftContainerStyle: { maxWidth: 0 },
         };

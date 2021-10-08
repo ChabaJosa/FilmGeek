@@ -42,56 +42,85 @@ export default function Home({ navigation }) {
         style={styles.containerStyle}
       >
         {/* <View style={styles.containerStyle}> */}
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Input
-              placeholder="Search For..."
-              // inputContainerStyle={{ margin: 16 }}
-              inputStyle={{ color: "white" }}
-              // labelStyle={{ padding: 8 }}
-              leftIcon={{
-                type: "font-awesome",
-                name: "search",
-                color: "#ffc92b",
-              }}
-              onChangeText={(value) => {
-                setSearch(value);
-              }}
+        <View
+          style={{
+            flex: 2,
+            alignItems: "center",
+            justifyContent: "center",
+            // borderColor: "green",
+            // borderWidth: 1,
+          }}
+        >
+          <Input
+            placeholder="Search For..."
+            containerStyle={{
+              borderColor: "white",
+              borderWidth: 1,
+              height: 75,
+              minHeight: "10%",
+              borderRadius: 32,
+              backgroundColor: "black",
+              // alignItems:'center'
+              // padding: 8
+            }}
+            inputContainerStyle={{
+              borderBottomWidth: 0,
+              height: "100%",
+              borderRadius: 32,
+              // borderColor: "red",
+              // borderWidth: 1,
+            }}
+            inputStyle={{
+              color: "white",
+              paddingLeft: 16,
+              // borderColor: "yellow",
+              // borderWidth: 1,
+            }}
+            // labelStyle={{color: "white" }}
+            leftIcon={{
+              type: "font-awesome",
+              name: "search",
+              color: "#ffc92b",
+            }}
+            onChangeText={(value) => {
+              setSearch(value);
+            }}
+          />
+        </View>
+        <View style={{ flex: 6 }}>
+          {state.movieArrData.Search != undefined &&
+          state.movieArrData.Search.length >= 1 ? (
+            <FlatList
+              data={state.movieArrData.Search}
+              keyExtractor={(item) => String(`${item.imdbID}+${Math.floor(Math.random()* 100)}`)}
+              renderItem={({ item, index }) => (
+                <SearchContainer
+                  data={item}
+                  navigation={navigation}
+                  index={index}
+                />
+              )}
             />
-          </View>
-          <View style={{ flex: 6 }}>
-            {state.movieArrData.Search != undefined &&
-            state.movieArrData.Search.length >= 1 ? (
-              <FlatList
-                data={state.movieArrData.Search}
-                keyExtractor={(item) => String(item.imdbID)}
-                renderItem={({ item, index }) => (
-                  <SearchContainer
-                    data={item}
-                    navigation={navigation}
-                    index={index}
-                  />
-                )}
-              />
-            ) : (
-              <View style={[styles.containerStyle, { alignItems: "center" }]}>
-                <Text style={styles.textWhite}>Nothing here yet!</Text>
-              </View>
-            )}
-          </View>
-          <View style={{ flex: 1 }}>
-            <Button
-              title="Find Movie"
-              titleStyle={{ color: "black" }}
-              buttonStyle={{
-                width: "50%",
-                alignSelf: "center",
-                backgroundColor: "#ffc92b",
-                color: "black",
-                marginTop: 8,
-              }}
-              onPress={searchHelper}
-            />
-          </View>
+          ) : (
+            <View style={[styles.containerStyle, { alignItems: "center" }]}>
+              <Text style={styles.textWhite}>Nothing here yet!</Text>
+            </View>
+          )}
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button
+            title="Find Movie"
+            titleStyle={{ color: "black" }}
+            buttonStyle={{
+              width: "50%",
+              alignSelf: "center",
+              backgroundColor: "#ffc92b",
+              color: "black",
+              marginTop: 8,
+            }}
+            onPress={searchHelper}
+          />
+        </View>
         {/* </View> */}
       </KeyboardAvoidingView>
     );
@@ -108,8 +137,10 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     backgroundColor: "black",
+    paddingVertical: 16,
     paddingHorizontal: 8,
-    // justifyContent:'center'
+    // borderColor: "white",
+    // borderWidth: 1,
   },
   title: {
     fontSize: 20,

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
   ImageBackground,
-} from "react-native"; 
+} from "react-native";
 //
 import { Input, Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -16,13 +16,17 @@ const { height, width } = Dimensions.get("screen");
 export default function SignIn() {
   const { state, getProfileData, createProfile } = useContext(Context);
   const [email, setEmail] = useState(null);
-  const [pwd, setPwd]     = useState(null);
+  const [pwd, setPwd] = useState(null);
+  //
+  // useEffect(() => {
+  //   getProfileData("chabagjg@gmail.com", "Test123456789");
+  // }, []);
   //
   async function handleSignUp() {
     if (email != null && pwd != null) {
       let trimUser = email.toString().trim();
       let trimPwd = pwd.toString().trim();
-      // 
+      //
       await createProfile(trimUser, trimPwd);
     } else {
       alert("Hey put something on Email or Password!");
@@ -33,7 +37,7 @@ export default function SignIn() {
     if (email != null && pwd != null) {
       let trimUser = email.toString().trim();
       let trimPwd = pwd.toString().trim();
-      // 
+      //
       await getProfileData(trimUser, trimPwd);
     } else {
       alert("Hey put something on Email or Password!");
