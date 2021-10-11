@@ -4,14 +4,12 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  FlatList,
   KeyboardAvoidingView,
   Dimensions,
   Animated,
-  TouchableOpacity,
   Platform,
 } from "react-native";
-import { Input, Button, Image } from "react-native-elements";
+import { Input, Button, Icon } from "react-native-elements";
 import { Context } from "../Context/AppProvider";
 import SearchContainer from "../components/SearchContainer";
 import MovieBackground from "../components/MovieBackground";
@@ -66,6 +64,7 @@ export default function Home({ navigation }) {
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 8,
+            zIndex: 1,
             // borderColor: "green",
             // borderWidth: 1,
           }}
@@ -76,6 +75,7 @@ export default function Home({ navigation }) {
               borderColor: "white",
               borderWidth: 1,
               height: "100%",
+              minHeight: 40,
               borderRadius: 32,
               backgroundColor: "black",
             }}
@@ -93,11 +93,14 @@ export default function Home({ navigation }) {
               // borderWidth: 1,
             }}
             // labelStyle={{color: "white" }}
-            leftIcon={{
-              type: "font-awesome",
-              name: "search",
-              color: "#ffc92b",
-            }}
+            rightIcon={
+              <Icon
+                size={24}
+                name="search"
+                color="#ffc92b"
+                onPress={searchHelper}
+              />
+            }
             onChangeText={(value) => {
               setSearch(value);
             }}
@@ -198,14 +201,14 @@ export default function Home({ navigation }) {
             </View>
           )}
         </View>
-        <View style={styles.btnContainer}>
+        {/* <View style={styles.btnContainer}>
           <Button
             title="Find Movie"
             titleStyle={{ color: "black" }}
             buttonStyle={styles.btn}
             onPress={searchHelper}
           />
-        </View>
+        </View> */}
         {/* </View> */}
       </KeyboardAvoidingView>
     );

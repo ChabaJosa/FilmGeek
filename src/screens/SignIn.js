@@ -18,9 +18,9 @@ export default function SignIn() {
   const [email, setEmail] = useState(null);
   const [pwd, setPwd] = useState(null);
   //
-  // useEffect(() => {
-  //   getProfileData("chabagjg@gmail.com", "Test123456789");
-  // }, []);
+  useEffect(() => {
+    getProfileData("chabagjg@gmail.com", "Test123456789");
+  }, []);
   //
   async function handleSignUp() {
     if (email != null && pwd != null) {
