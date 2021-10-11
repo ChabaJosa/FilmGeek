@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "black",
     padding: 8,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius:0,
     borderRadius: 16,
     fontStyle: "italic",
   },

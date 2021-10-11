@@ -54,15 +54,12 @@ export default function Home({ navigation }) {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={[
-          styles.containerStyle,
-          { borderTopWidth: 1, borderColor: "white" },
-        ]}
+        style={styles.containerStyle}
       >
         <MovieBackground
           data={dataWithSpacer}
           scrollX={scrollX}
-          height={BACKDROP_HEIGHT} // BACKDROP_HEIGHT
+          height={height} // BACKDROP_HEIGHT
           width={width} // BACKDROP_WIDTH
           ITEM_SIZE={ITEM_SIZE}
         />
@@ -159,9 +156,9 @@ export default function Home({ navigation }) {
                     >
                       <Animated.View
                         style={{
-                          borderColor: "white",
-                          borderWidth: 0.5,
-                          elevation:25,
+                          // borderColor: "white",
+                          // borderWidth: 0.5,
+                          elevation: 25,
                           borderRadius: 16,
                           marginHorizontal: 8,
                           marginBottom: 24,
@@ -216,22 +213,7 @@ const styles = StyleSheet.create({
   },
   textWhite: {
     color: "#ffc92b",
-  },
-  row: {
-    flex: 1,
-    flexDirection: "row",
-    paddingHorizontal: 5,
-    paddingTop: 5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  column: {
-    flex: 3,
-    paddingHorizontal: 5,
-    paddingTop: 5,
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
+  }, 
   container: {
     borderColor: "#ffc92b",
     borderWidth: 1,
@@ -264,16 +246,15 @@ const styles = StyleSheet.create({
   contStyle: {
     borderColor: "white",
     borderWidth: 1,
-    borderTopWidth: 0,
     height: "100%",
     minHeight: 40,
-    borderBottomEndRadius: 32,
-    borderBottomStartRadius: 32,
-    // borderBottomRadius: 32,
+    // borderTopWidth: 0,
+    // borderBottomEndRadius: 32,
+    // borderBottomStartRadius: 32, 
+    borderRadius: 32,
     backgroundColor: "transparent",
   },
-  inputContStyle: {
-    borderBottomWidth: 0,
+  inputContStyle: { 
     height: "100%",
     borderRadius: 32,
     // borderColor: "red",
