@@ -42,8 +42,15 @@ export default function Home({ navigation }) {
   }
   //
   const ITEM_SIZE = width * 0.72;
+  const SPACER_SIZE = (width - ITEM_SIZE) / 2;
   //
   if (state.movieArrData != undefined) {
+    //
+    let dataWithSpacer = [
+      { key: "left_spacer" },
+      ...state.movieArrData.Search,
+      { key: "right_spacer" },
+    ];
     //
     return (
       <KeyboardAvoidingView
@@ -106,7 +113,7 @@ export default function Home({ navigation }) {
           {state.movieArrData.Search != undefined &&
           state.movieArrData.Search.length >= 1 ? (
             <Animated.FlatList
-              data={state.movieArrData.Search}
+              data={dataWithSpacer}
               horizontal
               contentContainerStyle={{
                 alignItems: "center",
@@ -124,10 +131,15 @@ export default function Home({ navigation }) {
                 { useNativeDriver: true }
               )}
               renderItem={({ item, index }) => {
+                //
+                if (item.Poster === undefined) {
+                  return <View style={{width: SPACER_SIZE}} />;
+                }
+                //
                 const inputRange = [
+                  (index - 2) * ITEM_SIZE,
                   (index - 1) * ITEM_SIZE,
                   index * ITEM_SIZE,
-                  (index + 1) * ITEM_SIZE,
                 ];
                 //
                 const translateY = scrollX.interpolate({
