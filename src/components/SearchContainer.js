@@ -12,7 +12,7 @@ import { Image } from "react-native-elements";
 export default function SearchContainer({ data, navigation, index }) {
   //
   function navHelper() {
-    navigation.navigate("Title-Rate", {
+    navigation.navigate("Movie-Details", {
       title: data.Title,
     });
   }

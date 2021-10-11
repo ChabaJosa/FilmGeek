@@ -80,7 +80,7 @@ const TabScreen = () => {
           tabBarLabel:() => {return null},
           tabBarIcon: () => (
             <MaterialCommunityIcons
-              name="search-web"
+              name="movie-open"
               color={"white"}
               size={24}
             />

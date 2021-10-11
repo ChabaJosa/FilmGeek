@@ -67,7 +67,7 @@ export default function Home({ navigation }) {
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 8,
+            marginVertical: 8,
             marginHorizontal: 8,
             zIndex: 1,
             // borderColor: "green",

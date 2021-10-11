@@ -1,84 +1,143 @@
-import React from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import React, { useContext, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
+import { Context } from "../Context/AppProvider";
 import { Image } from "react-native-elements";
+import { useIsFocused } from "@react-navigation/native";
 //
 export default function Details({ route }) {
   //
-  const { index, data } = route.params;
+  const { state, getMovieData } = useContext(Context);
+  const { title } = route.params;
+  const isFocused = useIsFocused();
   //
-  // let rating = data.Ratings.filter((item) => item.Source.includes("Rotten"));
+  // console.log('Heree', title)
+  //
+  useEffect(() => {
+    let isSubscribed = true;
+    if (isSubscribed === true) {
+      let arr = state.movieData != undefined ? state.movieData : [];
+      getMovieData(arr, title);
+    }
+    return () => (isSubscribed = false);
+  }, [isFocused]);
+  //
+  // let rating = state.movieData[index].Ratings.filter((item) => item.Source.includes("Rotten"));
   // console.log('hereee',rating);
   //
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.containerStyle}>
-        <View style={[styles.flexOneRow, { justifyContent: "center" }]}>
-          <Image source={{ uri: data.Poster }} style={styles.avatar} />
-        </View>
-        <View style={[styles.flexOneRow, { justifyContent: "center" }]}>
-          <Text style={styles.title}>{data.Title}</Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Plot:</Text>
-          <Text style={[styles.textIconic, { textAlign: "justify" }]}>
-            {data.Plot}
-          </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Genre:</Text>
-          <Text style={styles.textIconic}>{data.Genre} </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Director:</Text>
-          <Text style={styles.textIconic}>{data.Director}</Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Writer(s):</Text>
-          <Text style={styles.textIconic}>{data.Writer}</Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Actors:</Text>
-          <Text style={styles.textIconic}>{data.Actors}</Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Box Office:</Text>
-          <Text style={styles.textIconic}>{data.BoxOffice} </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Released:</Text>
-          <Text style={styles.textIconic}>{data.Released} </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Awards:</Text>
-          <Text style={styles.textIconic}>{data.Awards}</Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Production House:</Text>
-          <Text style={styles.textIconic}>{data.Production} </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Rated:</Text>
-          <Text style={styles.textIconic}>{data.Rated} </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Runtime:</Text>
-          <Text style={styles.textIconic}>{data.Runtime} </Text>
-        </View>
-        <View style={styles.flexOneCol}>
-          <Text style={styles.dataLabel}>Language:</Text>
-          <Text style={styles.textIconic}>{data.Language} </Text>
-        </View>
-        {data.Ratings[1] !== undefined ? (
-          <View style={styles.flexOneCol}>
-            <Text style={styles.dataLabel}>
-              {`${data.Ratings[1].Source}`} Score:
-            </Text>
-            <Text style={styles.textIconic}>{data.Ratings[1].Value}</Text>
+  if (state.movieData != undefined && state.movieData.length > 0) {
+    const index = state.movieData.length - 1;
+    //
+    return (
+      <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.containerStyle}>
+          <View style={[styles.flexOneRow, { justifyContent: "center" }]}>
+            <Image
+              source={{ uri: state.movieData[index].Poster }}
+              style={styles.avatar}
+            />
           </View>
-        ) : null}
-      </ScrollView>
-    </SafeAreaView>
-  );
+          <View style={[styles.flexOneRow, { justifyContent: "center" }]}>
+            <Text style={styles.title}>{state.movieData[index].Title}</Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Plot:</Text>
+            <Text style={[styles.textIconic, { textAlign: "justify" }]}>
+              {state.movieData[index].Plot}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Genre:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Genre}{" "}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Director:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Director}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Writer(s):</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Writer}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Actors:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Actors}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Box Office:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].BoxOffice}{" "}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Released:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Released}{" "}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Awards:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Awards}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Production House:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Production}{" "}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Rated:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Rated}{" "}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Runtime:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Runtime}{" "}
+            </Text>
+          </View>
+          <View style={styles.flexOneCol}>
+            <Text style={styles.dataLabel}>Language:</Text>
+            <Text style={styles.textIconic}>
+              {state.movieData[index].Language}{" "}
+            </Text>
+          </View>
+          {state.movieData[index].Ratings[1] !== undefined ? (
+            <View style={styles.flexOneCol}>
+              <Text style={styles.dataLabel}>
+                {`${state.movieData[index].Ratings[1].Source}`} Score:
+              </Text>
+              <Text style={styles.textIconic}>
+                {state.movieData[index].Ratings[1].Value}
+              </Text>
+            </View>
+          ) : null}
+        </ScrollView>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <View style={[styles.containerStyle, { justifyContent: "center" }]}>
+        <ActivityIndicator size="large" color="#ffc92b" />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -86,6 +145,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // padding: 8,
     backgroundColor: "black",
+    paddingBottom: 64,
   },
   containerStyle: {
     // flex: 1,
