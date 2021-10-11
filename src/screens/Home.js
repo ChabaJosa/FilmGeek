@@ -148,7 +148,20 @@ export default function Home({ navigation }) {
                         style={{
                           // borderColor: "white",
                           // borderWidth: 0.5,
-                          elevation: 25,
+                          ...Platform.select({
+                            ios: {
+                              shadowColor: "#000",
+                              shadowOffset: {
+                                width: 0,
+                                height: 10,
+                              },
+                              shadowOpacity: 0.12,
+                              shadowRadius: 60,
+                            },
+                            android: {
+                              elevation: 2,
+                            },
+                          }),
                           borderRadius: 16,
                           marginHorizontal: 8,
                           marginBottom: 24,
@@ -188,18 +201,12 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     backgroundColor: "black",
-    // paddingVertical: 16,
-    // paddingHorizontal: 8,
     ...Platform.select({
       ios: {
         paddingBottom: 0,
       },
-      android: {
-        // paddingBottom: 64,
-      },
+      android: {},
     }),
-    // borderColor: "white",
-    // borderWidth: 1,
   },
   flatlistContainer: {
     flex: 8,
@@ -214,9 +221,6 @@ const styles = StyleSheet.create({
     //     marginBottom: 64,
     //   },
     // }),
-    // paddingTop: 8,
-    // borderWidth: 1,
-    // borderColor: "white",
   },
   textWhite: {
     color: "#ffc92b",
@@ -258,12 +262,12 @@ const styles = StyleSheet.create({
     // borderTopWidth: 0,
     // borderBottomEndRadius: 32,
     // borderBottomStartRadius: 32,
-    borderRadius: 32,
+    borderRadius: 16,
     backgroundColor: "transparent",
   },
   inputContStyle: {
     height: "100%",
-    borderRadius: 32,
+    borderRadius: 16,
     // borderColor: "red",
     // borderWidth: 1,
   },
