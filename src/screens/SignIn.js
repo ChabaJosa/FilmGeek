@@ -18,9 +18,9 @@ export default function SignIn() {
   const [email, setEmail] = useState(null);
   const [pwd, setPwd] = useState(null);
   //
-  useEffect(() => {
-    getProfileData("chabagjg@gmail.com", "Test123456789");
-  }, []);
+  // useEffect(() => {
+  //   getProfileData("chabagjg@gmail.com", "Test123456789");
+  // }, []);
   //
   async function handleSignUp() {
     if (email != null && pwd != null) {
@@ -42,10 +42,10 @@ export default function SignIn() {
     } else {
       alert("Hey put something on Email or Password!");
     }
-  }
-  //
-  // console.log("State from SignIn", state);
-  return (
+  }   
+  //       
+  // console.log("State from SignIn", state); 
+  return (  
     <View style={styles.containerStyle}>
       <View style={styles.imageContainer}>
         <ImageBackground
@@ -72,11 +72,11 @@ export default function SignIn() {
             inputStyle={{ color: "white" }}
             leftIcon={{ type: "font-awesome", name: "lock", color: "white" }}
             containerStyle={{ minWidth: "100%", padding: 16 }}
-            onChangeText={(value) => {
-              setPwd(value);
-            }}
+            onChangeText={(value) => {  
+              setPwd(value); 
+            }}  
           />
-        </View>
+        </View> 
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.btns}

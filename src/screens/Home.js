@@ -14,6 +14,7 @@ import {
 import { Input, Button, Image } from "react-native-elements";
 import { Context } from "../Context/AppProvider";
 import SearchContainer from "../components/SearchContainer";
+import MovieBackground from "../components/MovieBackground";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -26,7 +27,7 @@ export default function Home({ navigation }) {
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed === true) {
-      getMovieArr("Star Wars");
+      getMovieArr("Halloween");
     }
     return () => (isSubscribed = false);
   }, []);
@@ -43,13 +44,15 @@ export default function Home({ navigation }) {
   //
   const ITEM_SIZE = width * 0.72;
   const SPACER_SIZE = (width - ITEM_SIZE) / 2;
+  const BACKDROP_HEIGHT = height * 0.6;
+  const BACKDROP_WIDTH = width * 0.95;
   //
   if (state.movieArrData != undefined) {
     //
     let dataWithSpacer = [
-      { key: "left_spacer" },
+      { Title: "left_spacer" },
       ...state.movieArrData.Search,
-      { key: "right_spacer" },
+      { Title: "right_spacer" },
     ];
     //
     return (
@@ -105,78 +108,90 @@ export default function Home({ navigation }) {
             flex: 8,
             flexDirection: "row",
             alignItems: "center",
-            paddingTop: 8,
+            // paddingTop: 8,
             // borderWidth: 1,
             // borderColor: "white",
           }}
         >
           {state.movieArrData.Search != undefined &&
-          state.movieArrData.Search.length >= 1 ? (
-            <Animated.FlatList
-              data={dataWithSpacer}
-              horizontal
-              contentContainerStyle={{
-                alignItems: "center",
-              }}
-              keyExtractor={(item) =>
-                String(`${item.imdbID}+${Math.floor(Math.random() * 100)}`)
-              }
-              snapToInterval={ITEM_SIZE} // Stops At Every Item like Carousel
-              decelerationRate={0} // Slows Down Scroll Like Carousel
-              bounce={false} // No bounce effect at beginning or end
-              scrollEventThrottle={16} // Use 1 here to make sure no events are ever missed
-              onScroll={Animated.event(
-                // Actual Animation Stuff
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: true }
-              )}
-              renderItem={({ item, index }) => {
-                //
-                if (item.Poster === undefined) {
-                  return <View style={{width: SPACER_SIZE}} />;
+          state.movieArrData.Search.length >= 1 &&
+          dataWithSpacer !== undefined ? (
+            <>
+              <MovieBackground
+                data={dataWithSpacer}
+                scrollX={scrollX}
+                height={BACKDROP_HEIGHT}
+                width={BACKDROP_WIDTH}
+                ITEM_SIZE={ITEM_SIZE}
+              />
+              <Animated.FlatList
+                data={dataWithSpacer}
+                horizontal
+                contentContainerStyle={{
+                  alignItems: "center",
+                }}
+                keyExtractor={(item) =>
+                  String(`${item.imdbID}+${Math.floor(Math.random() * 100)}`)
                 }
-                //
-                const inputRange = [
-                  (index - 2) * ITEM_SIZE,
-                  (index - 1) * ITEM_SIZE,
-                  index * ITEM_SIZE,
-                ];
-                //
-                const translateY = scrollX.interpolate({
-                  inputRange,
-                  outputRange: [0, -50, 0],
-                });
-                //
-                return (
-                  <View
-                    style={{
-                      width: ITEM_SIZE,
-                      marginTop: 32,
-                      // borderColor: "green",
-                      // borderWidth: 1,
-                    }}
-                  >
-                    <Animated.View
+                renderToHardwareTextureAndroid
+                snapToInterval={ITEM_SIZE} // Stops At Every Item like Carousel
+                decelerationRate={0} // Slows Down Scroll Like Carousel
+                bounce={false} // No bounce effect at beginning or end
+                scrollEventThrottle={16} // Use 1 here to make sure no events are ever missed
+                onScroll={Animated.event(
+                  // Actual Animation Stuff
+                  [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                  { useNativeDriver: true }
+                )}
+                renderItem={({ item, index }) => {
+                  //
+                  if (item.Poster === undefined) {
+                    return <View style={{ width: SPACER_SIZE }} />;
+                  }
+                  //
+                  const inputRange = [
+                    (index - 2) * ITEM_SIZE,
+                    (index - 1) * ITEM_SIZE,
+                    index * ITEM_SIZE,
+                  ];
+                  //
+                  const translateY = scrollX.interpolate({
+                    inputRange,
+                    outputRange: [0, -50, 0],
+                  });
+                  //
+                  return (
+                    <View
                       style={{
-                        borderColor: "#ffc92b",
-                        borderWidth: 1,
-                        borderRadius: 16,
-                        marginHorizontal: 8,
-                        marginVertical: 24,
-                        padding: 8,
-                        transform: [{ translateY }],
+                        width: ITEM_SIZE,
+                        marginTop: 32,
+                        // borderColor: "green",
+                        // borderWidth: 1,
                       }}
                     >
-                      <SearchContainer
-                        data={item}
-                        navigation={navigation}
-                        index={index}
-                      />
-                    </Animated.View>
-                  </View>
-                );
-              }}
-            />
+                      <Animated.View
+                        style={{
+                          borderColor: "#ffc92b",
+                          borderWidth: 1,
+                          borderRadius: 16,
+                          marginHorizontal: 8,
+                          marginVertical: 24,
+                          padding: 8,
+                          backgroundColor: "black",
+                          transform: [{ translateY }],
+                        }}
+                      >
+                        <SearchContainer
+                          data={item}
+                          navigation={navigation}
+                          index={index}
+                        />
+                      </Animated.View>
+                    </View>
+                  );
+                }}
+              />
+            </>
           ) : (
             <View style={[styles.containerStyle, { alignItems: "center" }]}>
               <Text style={styles.textWhite}>Nothing here yet!</Text>
