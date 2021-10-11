@@ -23,6 +23,7 @@ export default function SearchContainer({ data, navigation, index }) {
         source={{
           uri: data.Poster,
         }}
+        imageStyle={{ borderRadius: 16}}
         resizeMode="cover"
         style={styles.img}
       >
@@ -40,6 +41,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "space-around",
     alignItems: "center",
+    borderRadius: 16,
+    borderWidth: 1,  
     // maxHeight: 250,
   },
   img: {
@@ -54,6 +57,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "black",
     padding: 8,
+    borderRadius: 16,
     fontStyle: "italic",
   },
 });

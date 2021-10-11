@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, Image, Animated } from "react-native"; 
+import { View, FlatList, Image, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 //
 export default function MovieBackground({
@@ -16,6 +16,7 @@ export default function MovieBackground({
         position: "absolute",
         width: width,
         height: height,
+        borderRadius: 32,
         // backgroundColor: "white",
       }}
     >
@@ -40,12 +41,12 @@ export default function MovieBackground({
             <Animated.View
               removeClippedSubviews={false}
               style={{
-                position: "absolute", 
+                position: "absolute",
                 height: height,
                 transform: [{ translateX }],
                 overflow: "hidden",
                 marginTop: 16,
-                borderRadius: 16,
+                // borderRadius: 16,
               }}
             >
               <Image
@@ -53,7 +54,7 @@ export default function MovieBackground({
                 style={{
                   width: width,
                   height: height,
-                //   position: "absolute",
+                  //   position: "absolute",
                 }}
               />
             </Animated.View>
@@ -61,7 +62,8 @@ export default function MovieBackground({
         }}
       />
       <LinearGradient
-        colors={["transparent", "black"]}
+        colors={["black", "transparent"]}
+        start={{ x: 0, y: 0.0005 }}
         style={{ width, height, position: "absolute", bottom: 0 }}
       />
     </View>

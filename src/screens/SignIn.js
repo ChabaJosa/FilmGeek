@@ -57,7 +57,7 @@ export default function SignIn() {
         <View style={styles.inputContainer}>
           <Input
             placeholder="  Email"
-            labelStyle={{ color: "white" }}
+            labelStyle={{ color: "white" }} 
             inputStyle={{ color: "white" }}
             autoCapitalize="none"
             leftIcon={{ type: "font-awesome", name: "user", color: "white" }}
@@ -76,7 +76,7 @@ export default function SignIn() {
               setPwd(value); 
             }}  
           />
-        </View> 
+        </View>
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.btns}

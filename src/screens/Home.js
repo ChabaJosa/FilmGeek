@@ -9,7 +9,7 @@ import {
   Animated,
   Platform,
 } from "react-native";
-import { Input, Button, Icon } from "react-native-elements";
+import { Input, Icon } from "react-native-elements";
 import { Context } from "../Context/AppProvider";
 import SearchContainer from "../components/SearchContainer";
 import MovieBackground from "../components/MovieBackground";
@@ -31,7 +31,6 @@ export default function Home({ navigation }) {
   }, []);
   //
   function searchHelper() {
-    // console.log("hello");
     let searchArr = String(search).split(" ");
     if (searchArr.length > 1) {
       getMovieArr(searchArr.join("+"));
@@ -43,7 +42,6 @@ export default function Home({ navigation }) {
   const ITEM_SIZE = width * 0.72;
   const SPACER_SIZE = (width - ITEM_SIZE) / 2;
   const BACKDROP_HEIGHT = height * 0.6;
-  const BACKDROP_WIDTH = width * 0.95;
   //
   if (state.movieArrData != undefined) {
     //
@@ -56,14 +54,25 @@ export default function Home({ navigation }) {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.containerStyle}
+        style={[
+          styles.containerStyle,
+          { borderTopWidth: 1, borderColor: "white" },
+        ]}
       >
+        <MovieBackground
+          data={dataWithSpacer}
+          scrollX={scrollX}
+          height={BACKDROP_HEIGHT} // BACKDROP_HEIGHT
+          width={width} // BACKDROP_WIDTH
+          ITEM_SIZE={ITEM_SIZE}
+        />
         <View
           style={{
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 8,
+            marginHorizontal: 8,
             zIndex: 1,
             // borderColor: "green",
             // borderWidth: 1,
@@ -71,27 +80,9 @@ export default function Home({ navigation }) {
         >
           <Input
             placeholder="Search For..."
-            containerStyle={{
-              borderColor: "white",
-              borderWidth: 1,
-              height: "100%",
-              minHeight: 40,
-              borderRadius: 32,
-              backgroundColor: "black",
-            }}
-            inputContainerStyle={{
-              borderBottomWidth: 0,
-              height: "100%",
-              borderRadius: 32,
-              // borderColor: "red",
-              // borderWidth: 1,
-            }}
-            inputStyle={{
-              color: "white",
-              paddingLeft: 16,
-              // borderColor: "yellow",
-              // borderWidth: 1,
-            }}
+            containerStyle={styles.contStyle}
+            inputContainerStyle={styles.inputContStyle}
+            inputStyle={styles.inpStyle}
             // labelStyle={{color: "white" }}
             rightIcon={
               <Icon
@@ -120,13 +111,6 @@ export default function Home({ navigation }) {
           state.movieArrData.Search.length >= 1 &&
           dataWithSpacer !== undefined ? (
             <>
-              <MovieBackground
-                data={dataWithSpacer}
-                scrollX={scrollX}
-                height={BACKDROP_HEIGHT}
-                width={BACKDROP_WIDTH}
-                ITEM_SIZE={ITEM_SIZE}
-              />
               <Animated.FlatList
                 data={dataWithSpacer}
                 horizontal
@@ -160,27 +144,28 @@ export default function Home({ navigation }) {
                   //
                   const translateY = scrollX.interpolate({
                     inputRange,
-                    outputRange: [0, -50, 0],
+                    outputRange: [100, 50, 100],
+                    extrapolate: "clamp",
                   });
                   //
                   return (
                     <View
                       style={{
                         width: ITEM_SIZE,
-                        marginTop: 32,
+                        marginBottom: 32,
                         // borderColor: "green",
                         // borderWidth: 1,
                       }}
                     >
                       <Animated.View
                         style={{
-                          borderColor: "#ffc92b",
-                          borderWidth: 1,
+                          borderColor: "white",
+                          borderWidth: 0.5,
+                          elevation:25,
                           borderRadius: 16,
                           marginHorizontal: 8,
-                          marginVertical: 24,
-                          padding: 8,
-                          backgroundColor: "black",
+                          marginBottom: 24,
+                          backgroundColor: "transparent",
                           transform: [{ translateY }],
                         }}
                       >
@@ -201,15 +186,6 @@ export default function Home({ navigation }) {
             </View>
           )}
         </View>
-        {/* <View style={styles.btnContainer}>
-          <Button
-            title="Find Movie"
-            titleStyle={{ color: "black" }}
-            buttonStyle={styles.btn}
-            onPress={searchHelper}
-          />
-        </View> */}
-        {/* </View> */}
       </KeyboardAvoidingView>
     );
   } else {
@@ -225,8 +201,8 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     backgroundColor: "black",
-    paddingVertical: 16,
-    paddingHorizontal: 8,
+    // paddingVertical: 16,
+    // paddingHorizontal: 8,
     ...Platform.select({
       ios: {
         paddingBottom: 0,
@@ -237,10 +213,6 @@ const styles = StyleSheet.create({
     }),
     // borderColor: "white",
     // borderWidth: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: "Helvetica",
   },
   textWhite: {
     color: "#ffc92b",
@@ -289,10 +261,26 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  btn: {
-    width: "50%",
-    alignSelf: "center",
-    backgroundColor: "#ffc92b",
-    color: "black",
+  contStyle: {
+    borderColor: "white",
+    borderWidth: 1,
+    borderTopWidth: 0,
+    height: "100%",
+    minHeight: 40,
+    borderBottomEndRadius: 32,
+    borderBottomStartRadius: 32,
+    // borderBottomRadius: 32,
+    backgroundColor: "transparent",
+  },
+  inputContStyle: {
+    borderBottomWidth: 0,
+    height: "100%",
+    borderRadius: 32,
+    // borderColor: "red",
+    // borderWidth: 1,
+  },
+  inpStyle: {
+    color: "white",
+    paddingLeft: 16,
   },
 });
