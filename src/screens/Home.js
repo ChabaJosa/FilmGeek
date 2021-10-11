@@ -41,7 +41,6 @@ export default function Home({ navigation }) {
   //
   const ITEM_SIZE = width * 0.72;
   const SPACER_SIZE = (width - ITEM_SIZE) / 2;
-  const BACKDROP_HEIGHT = height * 0.6;
   //
   if (state.movieArrData != undefined) {
     //
@@ -94,16 +93,7 @@ export default function Home({ navigation }) {
             }}
           />
         </View>
-        <View
-          style={{
-            flex: 8,
-            flexDirection: "row",
-            alignItems: "center",
-            // paddingTop: 8,
-            // borderWidth: 1,
-            // borderColor: "white",
-          }}
-        >
+        <View style={styles.flatlistContainer}>
           {state.movieArrData.Search != undefined &&
           state.movieArrData.Search.length >= 1 &&
           dataWithSpacer !== undefined ? (
@@ -205,15 +195,32 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
       },
       android: {
-        paddingBottom: 64,
+        // paddingBottom: 64,
       },
     }),
     // borderColor: "white",
     // borderWidth: 1,
   },
+  flatlistContainer: {
+    flex: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 64,
+    // ...Platform.select({
+    //   ios: {
+    //     marginBottom: 64,
+    //   },
+    //   android: {
+    //     marginBottom: 64,
+    //   },
+    // }),
+    // paddingTop: 8,
+    // borderWidth: 1,
+    // borderColor: "white",
+  },
   textWhite: {
     color: "#ffc92b",
-  }, 
+  },
   container: {
     borderColor: "#ffc92b",
     borderWidth: 1,
@@ -250,11 +257,11 @@ const styles = StyleSheet.create({
     minHeight: 40,
     // borderTopWidth: 0,
     // borderBottomEndRadius: 32,
-    // borderBottomStartRadius: 32, 
+    // borderBottomStartRadius: 32,
     borderRadius: 32,
     backgroundColor: "transparent",
   },
-  inputContStyle: { 
+  inputContStyle: {
     height: "100%",
     borderRadius: 32,
     // borderColor: "red",

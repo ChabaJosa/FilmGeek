@@ -18,9 +18,9 @@ export default function SignIn() {
   const [email, setEmail] = useState(null);
   const [pwd, setPwd] = useState(null);
   //
-  useEffect(() => {
-    getProfileData("chabagjg@gmail.com", "Test123456789");
-  }, []);
+  // useEffect(() => {
+  //   getProfileData("chabagjg@gmail.com", "Test123456789");
+  // }, []);
   //
   async function handleSignUp() {
     if (email != null && pwd != null) {
@@ -57,7 +57,7 @@ export default function SignIn() {
         <View style={styles.inputContainer}>
           <Input
             placeholder="  Email"
-            labelStyle={{ color: "white" }} 
+            labelStyle={{ color: "white" }}  
             inputStyle={{ color: "white" }}
             autoCapitalize="none"
             leftIcon={{ type: "font-awesome", name: "user", color: "white" }}
