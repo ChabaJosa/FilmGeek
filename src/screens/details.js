@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
     flex: 1,
     // padding: 8,
     backgroundColor: "black",
-    paddingBottom: 64,
   },
   containerStyle: {
     // flex: 1,
@@ -158,6 +157,7 @@ const styles = StyleSheet.create({
     borderColor: "#ffc92b",
     borderRadius: 8,
     padding: 16,
+    paddingBottom: 64,
   },
   flexOneRow: { flex: 1, flexDirection: "row", minWidth: "100%" },
   flexOneCol: { flex: 1, alignItems: "flex-start", minWidth: "100%" },

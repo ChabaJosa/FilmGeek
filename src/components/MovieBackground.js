@@ -63,7 +63,7 @@ export default function MovieBackground({
       />
       <LinearGradient
         colors={["black", "transparent"]}
-        start={{ x: 0, y: 0.0005 }}
+        start={{ x: 0.5, y: 0.0005 }}
         style={{ width, height, position: "absolute", bottom: 0 }}
       />
     </View>
