@@ -151,7 +151,7 @@ export default function Details({ route }) {
     );
   } else {
     return (
-      <View style={[styles.containerStyle, { justifyContent: "center" }]}>
+      <View style={[styles.containerStyle, { justifyContent: "center" , backgroundColor:'black'}]}>
         <ActivityIndicator size="large" color="#ffc92b" />
       </View>
     );
