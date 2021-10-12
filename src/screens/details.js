@@ -13,6 +13,7 @@ import { Context } from "../Context/AppProvider";
 import { Image } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { useIsFocused } from "@react-navigation/native";
+import * as Speech from "expo-speech";
 //
 const { height, width } = Dimensions.get("screen");
 //
@@ -21,8 +22,6 @@ export default function Details({ route }) {
   const { state, getMovieData } = useContext(Context);
   const { title } = route.params;
   const isFocused = useIsFocused();
-  //
-  // console.log('Heree', title)
   //
   useEffect(() => {
     let isSubscribed = true;
@@ -35,6 +34,11 @@ export default function Details({ route }) {
   //
   // let rating = state.movieData[index].Ratings.filter((item) => item.Source.includes("Rotten"));
   // console.log('hereee',rating);
+  //
+  const speak = (val) => {
+    const thingToSay = val;
+    Speech.speak(thingToSay);
+  };
   //
   if (state.movieData != undefined && state.movieData.length > 0) {
     const index = state.movieData.length - 1;
@@ -58,6 +62,7 @@ export default function Details({ route }) {
               <Image
                 source={{ uri: state.movieData[index].Poster }}
                 style={styles.avatar}
+                onPress={() => speak(state.movieData[index].Plot)}
               />
             </View>
             <View style={[styles.flexOneRow, { justifyContent: "center" }]}>
@@ -151,7 +156,12 @@ export default function Details({ route }) {
     );
   } else {
     return (
-      <View style={[styles.containerStyle, { justifyContent: "center" , backgroundColor:'black'}]}>
+      <View
+        style={[
+          styles.containerStyle,
+          { justifyContent: "center", backgroundColor: "black" },
+        ]}
+      >
         <ActivityIndicator size="large" color="#ffc92b" />
       </View>
     );
