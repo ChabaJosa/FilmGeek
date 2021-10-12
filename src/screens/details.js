@@ -35,24 +35,24 @@ export default function Details({ route }) {
     return () => (isSubscribed = false);
   }, [isFocused]);
   //
-  useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
+  // useEffect(() => {
+  //   return sound
+  //     ? () => {
+  //         console.log("Unloading Sound");
+  //         sound.unloadAsync();
+  //       }
+  //     : undefined;
+  // }, [sound]);
   //
-  async function playSound() {
-    console.log("Loading Sound");
-    const { sound } = await Audio.Sound.createAsync(
-      require("./assets/Hello.mp3")
-    );
-    setSound(sound);
-    console.log("Playing Sound");
-    await sound.playAsync();
-  }
+  // async function playSound() {
+  //   console.log("Loading Sound");
+  //   const { sound } = await Audio.Sound.createAsync(
+  //     require("./assets/Hello.mp3")
+  //   );
+  //   setSound(sound);
+  //   console.log("Playing Sound");
+  //   await sound.playAsync();
+  // }
   //
   async function listVoices() {
     let voices = await Speech.getAvailableVoicesAsync();
