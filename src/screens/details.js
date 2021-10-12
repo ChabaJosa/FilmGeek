@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,12 +8,14 @@ import {
   ActivityIndicator,
   Dimensions,
   ImageBackground,
+  Platform,
 } from "react-native";
 import { Context } from "../Context/AppProvider";
 import { Image } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { useIsFocused } from "@react-navigation/native";
 import * as Speech from "expo-speech";
+import { Audio } from "expo-av";
 //
 const { height, width } = Dimensions.get("screen");
 //
@@ -28,17 +30,56 @@ export default function Details({ route }) {
     if (isSubscribed === true) {
       let arr = state.movieData != undefined ? state.movieData : [];
       getMovieData(arr, title);
+      // listVoices();
     }
     return () => (isSubscribed = false);
   }, [isFocused]);
   //
-  // let rating = state.movieData[index].Ratings.filter((item) => item.Source.includes("Rotten"));
-  // console.log('hereee',rating);
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+  //
+  async function playSound() {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("./assets/Hello.mp3")
+    );
+    setSound(sound);
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+  //
+  async function listVoices() {
+    let voices = await Speech.getAvailableVoicesAsync();
+    console.log("voicesss", voices);
+  }
   //
   const speak = (val) => {
     const thingToSay = val;
-    Speech.speak(thingToSay);
+    Platform.OS === "ios"
+      ? Speech.speak(thingToSay, {
+          voice: "com.apple.ttsbundle.Daniel-compact",
+          pitch: 0.75,
+          rate: 0.1,
+          onStart: () => {},
+        })
+      : Speech.speak(thingToSay, {
+          pitch: 0.9,
+          rate: 0.1,
+          onStart: () => {},
+        });
+    //
+    // For both Pitch and Rate Normal is 1.0
+    //
   };
+  //
+  // let rating = state.movieData[index].Ratings.filter((item) => item.Source.includes("Rotten"));
+  // console.log('hereee',rating);
   //
   if (state.movieData != undefined && state.movieData.length > 0) {
     const index = state.movieData.length - 1;
