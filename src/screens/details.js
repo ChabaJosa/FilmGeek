@@ -64,7 +64,7 @@ export default function Details({ route }) {
     Platform.OS === "ios"
       ? Speech.speak(thingToSay, {
           voice: "com.apple.ttsbundle.Daniel-compact",
-          pitch: 0.75,
+          pitch: 0.9,
           // rate: 1.0,
           onStart: () => {},
         })
