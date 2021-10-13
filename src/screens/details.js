@@ -65,12 +65,12 @@ export default function Details({ route }) {
       ? Speech.speak(thingToSay, {
           voice: "com.apple.ttsbundle.Daniel-compact",
           pitch: 0.75,
-          rate: 0.1,
+          rate: 0.5,
           onStart: () => {},
         })
       : Speech.speak(thingToSay, {
           pitch: 0.9,
-          rate: 0.1,
+          rate: 0.5,
           onStart: () => {},
         });
     //
