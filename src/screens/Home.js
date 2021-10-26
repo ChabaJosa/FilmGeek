@@ -18,7 +18,7 @@ const { height, width } = Dimensions.get("screen");
 
 export default function Home({ navigation }) {
   const { state, getMovieArr } = useContext(Context);
-  const [search, setSearch] = useState("Tenet");
+  const [search, setSearch] = useState("Tenet"); 
   //
   const scrollX = useRef(new Animated.Value(0)).current;
   //

@@ -1,6 +1,7 @@
 import createDataContext from "./CreateDataContext";
 import firebase from "firebase";
 import "firebase/auth";
+import { LogBox } from "react-native";
 // import { getAuth, updateProfile } from "firebase/auth";
 // import * as SecureStore from "expo-secure-store";
 
@@ -50,7 +51,13 @@ const createProfile = (dispatch) => {
     // SecureStore.getItemAsync("user");
     // SecureStore.getItemAsync("pwd");
     //
+    // Firebase sets some timeers for a long period, which will trigger some warnings.
+    //
+    LogBox.ignoreLogs([`Setting a timer for a long period`]);
+    //
     try {
+      const db = firebase.firestore();
+      //
       let data = await firebase
         .auth()
         .createUserWithEmailAndPassword(usr, pwd)
@@ -64,7 +71,24 @@ const createProfile = (dispatch) => {
           });
         });
       //
-      if (data != undefined) {
+      if (data != undefined && data.email != null) {
+        db.collection("users")
+          .add({
+            email: usr,
+            bio: "",
+            likes: [],
+          })
+          .then((docRef) => {
+            // console.log("Document written with ID: ", docRef.id);
+            return docRef;
+          })
+          .catch((error) => {
+            // console.error("Error adding document: ", error);
+            return null;
+          });
+      }
+      //
+      if (data != undefined && data.email != null) {
         dispatch({
           type: "get_new_profile",
           payload: data,
@@ -166,10 +190,10 @@ const updateProfileData = (dispatch) => {
           type: "get_profile",
           payload: data,
           isLoggedIn: true,
-        message: "Succesfull User Update",
+          message: "Succesfull User Update",
         });
       } else {
-        data = newData
+        data = newData;
         //
         dispatch({
           type: "updt_profile",

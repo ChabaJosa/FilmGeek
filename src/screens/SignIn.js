@@ -27,7 +27,7 @@ export default function SignIn() {
       let trimUser = email.toString().trim();
       let trimPwd = pwd.toString().trim();
       //
-      await createProfile(trimUser, trimPwd);
+      await createProfile(trimUser, trimPwd); 
     } else {
       alert("Hey put something on Email or Password!");
     }
