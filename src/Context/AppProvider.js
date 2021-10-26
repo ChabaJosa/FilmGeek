@@ -24,6 +24,11 @@ const appReducer = (state, action) => {
         ...state,
         updateData: action.payload,
       };
+    case "get_usr_doc":
+      return {
+        ...state,
+        usrDocData: action.payload,
+      };
     case "get_movie":
       return {
         ...state,
@@ -212,6 +217,56 @@ const updateProfileData = (dispatch) => {
   };
 };
 
+const getUserDocData = (dispatch) => {
+  return async (email) => {
+    //
+    try {
+      const db = firebase.firestore();
+      let docRef = db.collection("users").doc(`${email}`);
+      //
+      let data = await docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            console.log("Document data:", doc.data());
+            return doc.data();
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+            return null;
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      //
+      if (data != null) {
+        dispatch({
+          type: "get_usr_doc",
+          payload: data,
+          isLoggedIn: true,
+          message: "Succesfull Sign In",
+        });
+      } else {
+        dispatch({
+          type: "get_usr_doc",
+          payload: {},
+          isLoggedIn: false,
+          message: "Error Upon User Doc Data Retrieval",
+        });
+      }
+    } catch (err) {
+      alert(err);
+      dispatch({
+        type: "get_usr_doc",
+        payload: {},
+        isLoggedIn: false,
+        message: "Error Upon User Doc Data Retrieval",
+      });
+    }
+  };
+};
+
 const getMovieData = (dispatch) => {
   return async (previousArr, movie) => {
     //
@@ -285,6 +340,7 @@ export const { Context, Provider } = createDataContext(
     createProfile,
     getProfileData,
     updateProfileData,
+    getUserDocData,
     getMovieData,
     getMovieArr,
     logoutProfile,

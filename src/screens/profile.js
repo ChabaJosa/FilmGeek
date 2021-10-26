@@ -39,6 +39,8 @@ const Profile = ({ navigation }) => {
           alert("Sorry, we need camera roll permissions to make this work!");
         }
       }
+      //
+      
     })();
   }, []);
   //
